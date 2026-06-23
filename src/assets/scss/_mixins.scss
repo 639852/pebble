@@ -1,0 +1,324 @@
+@use 'variables' as vars;
+
+@mixin media($name, $min-width: null, $max-width: null) {
+  @if ($name == mobile-s) {
+    @media (max-width: vars.$breakpoint_mobile-s) {
+      @content;
+    }
+  }
+  @if ($name == mobile) {
+    @if $min-width {
+      @media (min-width: $min-width) and (max-width: vars.$breakpoint_mobile) {
+        @content;
+      }
+    } @else {
+      @media (max-width: vars.$breakpoint_mobile) {
+        @content;
+      }
+    }
+  }
+  @if ($name == tablet-s) {
+    @if $min-width {
+      @media (min-width: $min-width) and (max-width: vars.$breakpoint_tablet-s) {
+        @content;
+      }
+    } @else {
+      @media (max-width: vars.$breakpoint_tablet-s) {
+        @content;
+      }
+    }
+  }
+  @if ($name == tablet) {
+    @if $min-width {
+      @media (min-width: $min-width) and (max-width: vars.$breakpoint_tablet) {
+        @content;
+      }
+    } @else {
+      @media (max-width: vars.$breakpoint_tablet) {
+        @content;
+      }
+    }
+  }
+  @if ($name == laptop) {
+    @if $min-width {
+      @media (min-width: $min-width) and (max-width: vars.$breakpoint_laptop) {
+        @content;
+      }
+    } @else {
+      @media (max-width: vars.$breakpoint_laptop) {
+        @content;
+      }
+    }
+  }
+  @if ($name == laptop-l) {
+    @if $min-width {
+      @media (min-width: $min-width) and (max-width: vars.$breakpoint_laptop-l) {
+        @content;
+      }
+    } @else {
+      @media (max-width: vars.$breakpoint_laptop-l) {
+        @content;
+      }
+    }
+  }
+  @if ($name == desktop) {
+    @if $min-width {
+      @media (min-width: $min-width) and (max-width: vars.$breakpoint_desktop) {
+        @content;
+      }
+    } @else {
+      @media (max-width: vars.$breakpoint_desktop) {
+        @content;
+      }
+    }
+  }
+  @if ($name == desktop-l) {
+    @if $min-width {
+      @media (min-width: $min-width) and (max-width: vars.$breakpoint_desktop-l) {
+        @content;
+      }
+    } @else {
+      @media (max-width: vars.$breakpoint_desktop-l) {
+        @content;
+      }
+    }
+  }
+  @if ($name == full-hd) {
+    @if $min-width {
+      @media (min-width: $min-width) and (max-width: vars.$breakpoint_full-hd) {
+        @content;
+      }
+    } @else {
+      @media (max-width: vars.$breakpoint_full-hd) {
+        @content;
+      }
+    }
+  }
+  @if ($name == custom) {
+    @if $min-width and $max-width == null {
+      @media (min-width: $min-width) {
+        @content;
+      }
+    } @else if $max-width and $min-width == null {
+      @media (max-width: $max-width) {
+        @content;
+      }
+    } @else if $min-width and $max-width {
+      @media (min-width: $min-width) and (max-width: $max-width) {
+        @content;
+      }
+    }
+  }
+  @if ($name == mouse) {
+    @media ($ui-device_mouse) {
+      @content;
+    }
+  }
+  @if ($name == touch) {
+    @media ($ui-device_touch) {
+      @content;
+    }
+  }
+}
+
+// Hover для сенсорных и не сенсорных экранов
+@mixin hover($device: mouse) {
+  @if ($device == touch) {
+    @media (vars.$ui-device_touch) {
+      &:hover {
+        @content;
+      }
+    }
+  } @else if ($device == mouse) {
+    @media (vars.$ui-device_mouse) {
+      &:hover {
+        @content;
+      }
+    }
+  }
+}
+
+// flex
+@mixin flex-row($gap: null) {
+  display: flex;
+  align-items: center;
+
+  @if ($gap) {
+    gap: $gap;
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absolute-cover($inset: 0, $width: 100%, $height: 100%) {
+  position: absolute;
+  inset: $inset;
+  width: $width;
+  height: $height;
+}
+
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin full-size {
+  width: 100%;
+  height: 100%;
+}
+
+@mixin text-style($fontSize: 14px, $fontWeight: 400, $color: var(--text-color)) {
+  font-size: $fontSize;
+  font-weight: $fontWeight;
+  line-height: 1.4;
+  color: $color;
+}
+
+@mixin title($fontSize: 32px, $fontWeight: 500, $color: var(--text-color)) {
+  @include text-style($fontSize, $fontWeight, $color);
+}
+
+@mixin text-overflow($line: 2, $orient: vertical, $overflow: ellipsis) {
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: $orient;
+  overflow: hidden;
+  text-overflow: $overflow;
+}
+
+// Style placeholders
+@mixin placeholder(
+  $font-family: inherit,
+  $font-size: inherit,
+  $font-weight: inherit,
+  $font-style: inherit,
+  $color: inherit
+) {
+  &::placeholder {
+    font-family: $font-family;
+    font-size: $font-size;
+    font-weight: $font-weight;
+    font-style: $font-style;
+
+    color: $color;
+  }
+}
+
+@mixin scrollbar(
+  $width: 4px,
+  $trackColor: #ffffff,
+  $thumbColor: #404040,
+  $borderRadius: 8px,
+  $borderColor: #fff,
+  $indent: 0px,
+  $position: vertical,
+  $height: 4px,
+  $trackMargin: 0px
+) {
+  &::-webkit-scrollbar {
+    @if ($position == vertical) {
+      @if ($indent != 0px) {
+        width: calc($indent * 2 + $width);
+      } @else {
+        width: $width;
+      }
+    } @else {
+      @if ($indent != 0px) {
+        height: calc($indent * 2 + $height);
+      } @else {
+        height: $height;
+      }
+    }
+
+    &-track {
+      background-color: $trackColor;
+      margin: $trackMargin;
+
+      @if ($indent != 0px) {
+        @if ($position == vertical) {
+          border-left: $indent solid $borderColor;
+          border-right: $indent solid $borderColor;
+        } @else {
+          border-top: $indent solid $borderColor;
+          border-bottom: $indent solid $borderColor;
+        }
+      }
+    }
+
+    &-thumb {
+      background-color: $thumbColor;
+      border-radius: $borderRadius;
+
+      @if ($indent != 0px) {
+        @if ($position == vertical) {
+          border-left: $indent solid $borderColor;
+          border-right: $indent solid $borderColor;
+        } @else {
+          border-top: $indent solid $borderColor;
+          border-bottom: $indent solid $borderColor;
+        }
+      }
+    }
+  }
+}
+
+@mixin figure(
+  $width: null,
+  $height: null,
+  $padding: null,
+  $background: null,
+  $border: null,
+  $radius: null
+) {
+  width: $width;
+
+  @if $height {
+    height: $height;
+  } @else {
+    height: $width;
+  }
+
+  overflow: hidden;
+
+  @if $padding {
+    padding: $padding;
+  }
+  @if $background {
+    background: $background;
+  }
+  @if $border {
+    border: $border;
+  }
+  @if $radius {
+    border-radius: $radius;
+  }
+}
+
+@mixin circle($size, $padding: null, $background: null, $border: null) {
+  width: $size;
+  height: $size;
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  @if $padding {
+    padding: $padding;
+  }
+  @if $background {
+    background-color: $background;
+  }
+  @if $border {
+    border: $border;
+  }
+}
+
+@mixin box($size) {
+  width: $size;
+  height: $size;
+}

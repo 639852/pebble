@@ -1,0 +1,24 @@
+// Breakpoints
+$breakpoint_mobile-s: 374px;
+$breakpoint_mobile: 576px;
+$breakpoint_tablet-s: 768px;
+$breakpoint_tablet: 1024px;
+$breakpoint_laptop: 1280px;
+$breakpoint_laptop-l: 1470px;
+$breakpoint_desktop: 1535px;
+$breakpoint_desktop-l: 1800px;
+$breakpoint_full-hd: 1920px;
+
+// z-index
+$ui-index_1: 1; // Для элементов в общем потоке
+$ui-index_2: 2; // Для элементов в общем потоке
+$ui-index_3: 3; // Для фиксированных элментов
+$ui-index_4: 4; // Для фиксированных элментов
+$ui-index_5: 5; // Для модалок
+$ui-index_6: 6; // Для модалок
+$ui-index_7: 7; // Для элементов перекрывающих всё
+$ui-index_8: 8; // Для элементов перекрывающих всё
+
+// медиа для определение девайса
+$ui-device_mouse: "(hover: hover) and (pointer: fine)";
+$ui-device_touch: "(hover: none) and (pointer: coarse)";

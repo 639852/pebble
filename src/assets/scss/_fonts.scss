@@ -1,0 +1,71 @@
+@font-face {
+	font-family: "Aeonik";
+	font-weight: 300;
+	font-style: normal;
+	font-display: auto;
+	unicode-range: U+000-5FF;
+	src:
+		local("Aeonik"),
+		url("@/assets/fonts/Aeonik/Aeonik-Light.woff2") format("woff2"),
+		url("@/assets/fonts/Aeonik/Aeonik-Light.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Aeonik";
+	font-weight: 400;
+	font-style: normal;
+	font-display: auto;
+	unicode-range: U+000-5FF;
+	src:
+		local("Aeonik"),
+		url("@/assets/fonts/Aeonik/Aeonik-Regular.woff2") format("woff2"),
+		url("@/assets/fonts/Aeonik/Aeonik-Regular.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Aeonik";
+	font-weight: 500;
+	font-style: normal;
+	font-display: auto;
+	unicode-range: U+000-5FF;
+	src:
+		local("Aeonik"),
+		url("@/assets/fonts/Aeonik/Aeonik-Medium.woff2") format("woff2"),
+		url("@/assets/fonts/Aeonik/Aeonik-Medium.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Aeonik";
+	font-weight: 700;
+	font-style: normal;
+	font-display: auto;
+	unicode-range: U+000-5FF;
+	src:
+		local("Aeonik"),
+		url("@/assets/fonts/Aeonik/Aeonik-Bold.woff2") format("woff2"),
+		url("@/assets/fonts/Aeonik/Aeonik-Bold.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Aeonik Fono";
+	font-weight: 400;
+	font-style: normal;
+	font-display: auto;
+	unicode-range: U+000-5FF;
+	src:
+		local("Aeonik Fono"),
+		url("@/assets/fonts/Aeonik Fono/AeonikFono-Regular.woff2") format("woff2"),
+		url("@/assets/fonts/Aeonik Fono/AeonikFono-Regular.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Youth";
+	font-weight: 500;
+	font-style: normal;
+	font-display: auto;
+	unicode-range: U+000-5FF;
+	src:
+		local("Youth"),
+		url("@/assets/fonts/Youth/Youth-Medium.woff2") format("woff2"),
+		url("@/assets/fonts/Youth/Youth-Medium.woff") format("woff");
+}
