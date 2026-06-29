@@ -13,7 +13,7 @@ const scrollTextProgress = computed(() => {
   const scrollYWithoutHalfText = Math.max((pageScrollY?.value ?? 0) - textHeight / 2, 0)
   const scrollProgress = scrollYWithoutHalfText / textHeight
 
-  return textHeight * 2 / textHeight * scrollProgress
+  return Math.min(1.66, textHeight * 2 / textHeight * scrollProgress)
 })
 
 function observeTextBlock(p: HTMLParagraphElement) {

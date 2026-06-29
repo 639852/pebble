@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 const buttonEl = useTemplateRef<HTMLButtonElement | HTMLAnchorElement>('buttonEl')
 
 onMounted(() => {
-  if (props.type !== 'primary') return
+  if (props.type === 'secondary') return
 
   const textEl = buttonEl.value?.firstElementChild
   const text = textEl?.innerHTML
@@ -45,7 +45,7 @@ function fadeLetter(index: number, delay = 0) {
 }
 
 function onMouseEnter() {
-  if (props.type !== 'primary') return
+  if (props.type === 'secondary') return
 
   const letters = buttonEl.value?.querySelectorAll('span') ?? []
   const firstNum = randomNumber(1, 4)
@@ -116,6 +116,27 @@ function onMouseEnter() {
 
     @include mix.hover {
       background: rgba(#a39b8b, 0.5);
+    }
+  }
+
+  &.--tertiary {
+    background: var(--light-background-color);
+    color: var(--text-color);
+    transition: transform 400ms cubic-bezier(0, 0, 0.2, 1);
+
+    @include mix.hover {
+      transform: scale(1.04);
+    }
+  }
+
+  &.--ghost {
+    background: rgba(#a39b8b, 0.3);
+    backdrop-filter: blur(10rem);
+    color: var(--light-text-color);
+    transition: transform 400ms cubic-bezier(0, 0, 0.2, 1);
+
+    @include mix.hover {
+      transform: scale(1.04);
     }
   }
 

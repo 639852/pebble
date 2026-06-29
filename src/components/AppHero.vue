@@ -79,12 +79,9 @@ const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
     padding: var(--padding-container);
 
     font-family: "Youth", serif;
-    font-size: 39.6rem;
-    font-weight: 500;
-    line-height: 0.8;
+    @include mix.title(39.6rem, 500, var(--light-text-color), 0.8);
     letter-spacing: -1.6rem;
     text-align: center;
-    color: var(--light-text-color);
   }
 
   &__video {

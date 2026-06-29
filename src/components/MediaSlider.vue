@@ -23,7 +23,7 @@ const scrollSliderProgress = computed(() => {
   const y = (pageScrollY?.value ?? 0) - height
   const scrollProgress = (y + innerHeight * 0.66) / (sliderHeight - innerHeight * 0.33)
 
-  return scrollProgress
+  return Math.min(1, Math.max(0, scrollProgress))
 })
 
 const currentSlide = computed(() => {

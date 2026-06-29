@@ -16,7 +16,7 @@ const scrollImagesProgress = computed(() => {
   const y = Math.max(pageScrollY?.value ?? 0, 0)
   const scrollProgress = y / imagesHeight
 
-  return scrollProgress - 1.9
+  return Math.min(2.7, Math.max(0, scrollProgress - 1.9))
 })
 
 const titleTransform = computed(() => `${Math.max(0, Math.round((1 - scrollImagesProgress.value * 1.5) * 50))}px`)

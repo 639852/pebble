@@ -13,7 +13,7 @@ const scrollTextProgress = computed(() => {
   const y = Math.max(pageScrollY?.value ?? 0, 0)
   const scrollProgress = y / textHeight
 
-  return scrollProgress - 4.9
+  return Math.min(1, Math.max(-0.4, scrollProgress - 4.9))
 })
 
 onMounted(() => {

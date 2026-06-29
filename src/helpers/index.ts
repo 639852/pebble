@@ -13,3 +13,16 @@ export function splitString(element: HTMLElement, selector = 'p') {
       .join('')
   })
 }
+
+export function splitStringOnWords(element: HTMLElement, selector = 'p') {
+  const paragraphs = element.querySelectorAll<HTMLElement>(selector)
+
+  paragraphs.forEach((p) => {
+    const words = p.innerText.trim().split(' ')
+
+    p.style.setProperty('--words-count', `${words.length}`)
+    p.innerHTML = words
+      .map((word, i) => `<span style="--word-index: ${i}">${word}</span>`)
+      .join(' ')
+  })
+}

@@ -4,6 +4,7 @@ export { default as TextBlock } from '@/components/TextBlock.vue'
 export { default as SplitImages } from '@/components/SplitImages.vue'
 export { default as SecondTextBlock } from '@/components/SecondTextBlock.vue'
 export { default as MediaSlider } from '@/components/MediaSlider.vue'
+export { default as InviteBlock } from '@/components/InviteBlock.vue'
 
 export { default as AppPopover } from '@/components/Functional/AppPopover.vue'
 export { default as RenderMedia } from '@/components/Functional/RenderMedia.vue'
