@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject, useTemplateRef } from 'vue'
+import { useHeaderIntersect } from '@/composables'
 
 import LogoIcon from '@/assets/icons/logo.svg'
 import { AppButton, HeaderBurger, HeaderNavigation } from '@/components'
@@ -14,7 +15,7 @@ function onMouseEnter(event: MouseEvent) {
 
   timeout = setTimeout(() => {
     burger!.style.pointerEvents = 'none'
-  }, 600);
+  }, 600)
 }
 
 function onMouseLeave(event: MouseEvent) {
@@ -24,10 +25,17 @@ function onMouseLeave(event: MouseEvent) {
   clearTimeout(timeout)
   burger!.style.pointerEvents = ''
 }
+
+const headerEl = useTemplateRef('headerEl')
+const { isSecondary } = useHeaderIntersect(headerEl)
 </script>
 
 <template>
-  <header class="header">
+  <header
+    ref="headerEl"
+    class="header"
+    :class="{ '--secondary': isSecondary }"
+  >
     <a
       class="header__logo"
       href="https://pebblelife.com/"
@@ -72,6 +80,11 @@ function onMouseLeave(event: MouseEvent) {
     border-radius: 2.1rem;
     color: var(--icon-color);
     background: var(--light-background-color);
+    transition: background 500ms;
+
+    #{$this}.--secondary & {
+      background: var(--background-color);
+    }
 
     & > svg {
       width: 4.0rem;

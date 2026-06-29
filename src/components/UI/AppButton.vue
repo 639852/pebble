@@ -8,7 +8,7 @@ interface Props {
   disabled?: boolean
   href?: string
 }
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   type: "primary",
   size: "default",
   href: undefined,
@@ -17,6 +17,8 @@ withDefaults(defineProps<Props>(), {
 const buttonEl = useTemplateRef<HTMLButtonElement | HTMLAnchorElement>('buttonEl')
 
 onMounted(() => {
+  if (props.type !== 'primary') return
+
   const textEl = buttonEl.value?.firstElementChild
   const text = textEl?.innerHTML
 
@@ -43,6 +45,8 @@ function fadeLetter(index: number, delay = 0) {
 }
 
 function onMouseEnter() {
+  if (props.type !== 'primary') return
+
   const letters = buttonEl.value?.querySelectorAll('span') ?? []
   const firstNum = randomNumber(1, 4)
   const index = randomNumber(0, letters.length - 1)
@@ -88,7 +92,9 @@ function onMouseEnter() {
 
 <style scoped lang="scss">
 .button {
+  display: block;
   padding: 4rem 4.7rem;
+
   font-family: var(--mono-font);
   font-size: 1.4rem;
   letter-spacing: 0.1rem;
@@ -101,6 +107,16 @@ function onMouseEnter() {
   &.--primary {
     background: var(--main-color);
     color: var(--light-text-color);
+  }
+
+  &.--secondary {
+    background: var(--background-color);
+    color: var(--text-color);
+    transition: background 400ms;
+
+    @include mix.hover {
+      background: rgba(#a39b8b, 0.5);
+    }
   }
 
   &__inner {

@@ -1,0 +1,12 @@
+// Transitions
+$transition: 300ms ease-out;
+$transition_accordion: 300ms cubic-bezier(0.33, 1, 0.68, 1);
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity $transition;
+}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, useTemplateRef } from 'vue'
+import { inject } from 'vue'
 
 import { firstImage, secondImage, shortVideo } from '@/assets/data/hero'
 import TriangleIcon from '@/assets/icons/triangle.svg'
@@ -7,23 +7,11 @@ import PlayIcon from '@/assets/icons/play.svg'
 
 import type { ComputedRef } from 'vue'
 
-const scrollProgress = inject<ComputedRef<number>>('scrollProgress')
 const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
-const heroEl = useTemplateRef('heroEl')
-
-const scrollHeroProgress = computed(() => {
-  const { offsetHeight } = document.body
-  const heroHeight = heroEl.value?.offsetHeight ?? 0
-
-  return (heroHeight / offsetHeight) * (scrollProgress?.value ?? 0) * 100
-});
 </script>
 
 <template>
-  <div
-    ref="heroEl"
-    class="hero"
-  >
+  <div class="hero">
     <div class="hero__image">
       <div class="hero__image-wrapper">
         <img :src="firstImage" alt="">
@@ -61,18 +49,17 @@ const scrollHeroProgress = computed(() => {
 <style scoped lang="scss">
 .hero {
   $this: &;
-	--scroll-progress: v-bind('scrollHeroProgress');
 
   position: relative;
   @include mix.figure(100svw, 100svh);
-  transform: scale(max(0.971, 1 - (v-bind('scrollProgress') * 0.125)));
+  transform: scale(max(0.971, 1 - (v-bind('pageScrollY') / 20000)));
 
   &__image {
     @include mix.absolute-cover;
     pointer-events: none;
 
     overflow: hidden;
-    border-radius: min(30px, 1px * v-bind('scrollProgress') * 100 * 2);
+    border-radius: min(30px, 1px * v-bind('pageScrollY') / 20);
 
     &-wrapper {
       @include mix.full-size;

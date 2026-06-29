@@ -5,7 +5,7 @@ export function randomNumber(min: number, max: number) {
 export function splitString(element: HTMLElement, selector = 'p') {
   const paragraphs = element.querySelectorAll<HTMLElement>(selector)
 
-  paragraphs?.forEach((p) => {
+  paragraphs.forEach((p) => {
     p.style.setProperty('--text-length', `${p.innerText.length}`)
     p.innerHTML = p.innerText.trim()
       .split('')

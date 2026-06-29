@@ -20,5 +20,5 @@ $ui-index_7: 7; // Для элементов перекрывающих всё
 $ui-index_8: 8; // Для элементов перекрывающих всё
 
 // медиа для определение девайса
-$ui-device_mouse: "(hover: hover) and (pointer: fine)";
-$ui-device_touch: "(hover: none) and (pointer: coarse)";
+$ui-device_mouse: '(hover: hover) and (pointer: fine)';
+$ui-device_touch: '(hover: none) and (pointer: coarse)';
