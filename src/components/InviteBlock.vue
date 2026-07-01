@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, useTemplateRef } from 'vue'
-import { content, firstImage, secondImage } from '@/assets/data/inviteBlock'
+import { buttons, content, firstImage, secondImage } from '@/assets/data/inviteBlock'
 
 import type { ComputedRef } from 'vue'
 import { splitStringOnWords } from '@/helpers'
@@ -46,8 +46,14 @@ onMounted(() => {
       </div>
 
       <div class="invite-block__buttons">
-        <AppButton type="tertiary">Explore</AppButton>
-        <AppButton type="ghost">Order</AppButton>
+        <AppButton
+          v-for="button of buttons"
+          :key="button.href"
+          :type="button.type"
+          :href="button.href"
+        >
+          {{ button.text }}
+        </AppButton>
         <span class="invite-block__text">Now Available</span>
       </div>
 

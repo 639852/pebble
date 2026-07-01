@@ -81,6 +81,7 @@ const { isSecondary } = useHeaderIntersect(headerEl)
     color: var(--icon-color);
     background: var(--light-background-color);
     transition: background 500ms;
+    pointer-events: all;
 
     #{$this}.--secondary & {
       background: var(--background-color);
@@ -100,6 +101,7 @@ const { isSecondary } = useHeaderIntersect(headerEl)
     padding: 0.4rem;
     border-radius: 2rem;
     background: var(--light-background-color);
+    pointer-events: all;
   }
 
   &__menu {

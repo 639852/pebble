@@ -38,6 +38,8 @@ const buttonWidth = ref('116px')
 const buttonTransform = ref('0')
 const buttonsTransform = ref('0')
 
+const buttons = [...data, { title: 'And so much more', src: '', buttonText: null }]
+
 watch(currentSlide, () => {
   const index = Math.max(0, Math.round(scrollSliderProgress.value / (1 / data.length)))
   let x = 0
@@ -52,9 +54,9 @@ watch(currentSlide, () => {
   buttonTransform.value = `${x}px`
 
   const buttonsParrentWidth = buttonEl.value?.[0]?.parentElement?.offsetWidth ?? 0
-  const buttonsWidth = buttonEl.value?.reduce((result, element) => result + element.offsetWidth, 0) ?? 0
+  const buttonsWidth = buttonEl.value?.reduce((result, element) => result + element.offsetWidth + 26, 141) ?? 0
 
-  buttonsTransform.value = `${(buttonsWidth - buttonsParrentWidth - 18 * 3) / (buttonEl.value?.length ?? 1) * index}px`
+  buttonsTransform.value = `${(buttonsParrentWidth - buttonsWidth) / buttons.length * index}px`
 })
 </script>
 
@@ -95,7 +97,7 @@ watch(currentSlide, () => {
               <div class="media-slider__block-inner">
                 <div class="media-slider__block-buttons">
                   <button
-                    v-for="(item, i) of data"
+                    v-for="(item, i) of buttons"
                     :key="i"
                     ref="buttonEl"
                     type="button"
@@ -103,10 +105,6 @@ watch(currentSlide, () => {
                     :class="{ '--active': currentSlide?.src === item.src }"
                   >
                     {{ i + 1 }}. {{ item.buttonText ?? item.title }}
-                  </button>
-
-                  <button type="button" class="media-slider__block-button">
-                    {{ data.length + 1 }}. And so much more
                   </button>
                 </div>
               </div>
