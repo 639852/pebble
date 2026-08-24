@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, useTemplateRef } from 'vue'
+import { splitStringOnWords } from '@/helpers'
 import { buttons, content, firstImage, secondImage } from '@/assets/data/inviteBlock'
 
 import type { ComputedRef } from 'vue'
-import { splitStringOnWords } from '@/helpers'
-import { AppButton } from '.'
+import { AppButton } from '@/components'
 
 const inviteBlockEl = useTemplateRef('inviteBlockEl')
 const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
@@ -85,27 +85,40 @@ onMounted(() => {
     border-radius: min(30px, max(0, v-bind('scrollBlockProgress')) * 45px);
 
     &-wrapper {
+      --max: 20%;
+
       @include mix.full-size;
-      transform: translate3d(0, clamp(-60%, v-bind('scrollBlockProgress') * 20%, 20%), 0);
+      transform: translate3d(0, clamp(-60%, v-bind('scrollBlockProgress') * 20%, var(--max)), 0);
 
       & > img {
         @include mix.full-size;
         object-fit: cover;
+      }
+
+      @include mix.media(tablet) {
+        --max: 0%;
       }
     }
   }
 
   &__content {
     @include mix.absolute-center;
+
+    padding-inline: var(--padding-container);
+    width: 100%;
     text-align: center;
+
+    @include mix.media(tablet) {
+      top: 35%;
+    }
   }
 
   &__subtitle {
     display: block;
-    margin-bottom: 5rem;
+    margin-bottom: clamp(2.4rem, mix.ruber(4), 5rem);
 
     font-family: var(--mono-font);
-    @include mix.text-style(18px, 400, var(--light-text-color));
+    @include mix.text-style(clamp(1.2rem, mix.ruber(1.6), 1.8rem), 400, var(--light-text-color));
     text-transform: uppercase;
 
     transform: translate3d(0, clamp(-50svh, v-bind('scrollBlockProgress') * 15svh, 0%), 0);
@@ -113,17 +126,22 @@ onMounted(() => {
 
   &__title {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 7.2rem;
+    gap: clamp(1.8rem, mix.ruber(7), 7.2rem);
 
     width: 100%;
 
     font-family: 'Youth', serif;
-    @include mix.title(29.1rem, 500, var(--light-text-color), 0.8);
-    letter-spacing: -1.8rem;
+    @include mix.title(clamp(10rem, mix.ruber(28), 29.1rem), 500, var(--light-text-color), 0.8);
+    letter-spacing: clamp(-1.8rem, -1.2vw, -0.128rem);
 
     & > :deep(span) {
       transform: translate3d(0, max(-130%, v-bind('scrollBlockProgress') * 17% * (var(--words-count) - var(--word-index))), 0);
+
+      @include mix.media(tablet) {
+        transform: translate3d(0, max(-130%, (1 / v-bind('scrollBlockProgress') * 50% * (var(--word-index) + 1)) - 50% * var(--word-index)), 0);
+      }
     }
   }
 
@@ -137,7 +155,17 @@ onMounted(() => {
     justify-content: center;
     flex-wrap: wrap;
 
+    width: 100%;
     transform: translateX(-50%);
+
+    @include mix.media(tablet) {
+      bottom: 20%;
+      gap: 0.8rem;
+
+      .button {
+        font-size: 1.2rem;
+      }
+    }
   }
 
   &__text {
@@ -148,6 +176,11 @@ onMounted(() => {
     @include mix.text-style(1.3rem, 400, var(--light-text-color));
     text-transform: uppercase;
     text-align: center;
+
+    @include mix.media(tablet) {
+      margin-top: 1.2rem;
+      font-size: 1.1rem;
+    }
   }
 }
 </style>

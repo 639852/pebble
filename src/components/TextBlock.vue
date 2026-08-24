@@ -68,6 +68,7 @@ onMounted(() => {
   // })
 
   splitString(textBlockEl.value)
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   observeTextBlock(paragraphs[0]!)
   observeHero()
 })
@@ -91,20 +92,26 @@ onMounted(() => {
 
   position: relative;
   z-index: vars.$ui_index-3;
-  height: 140svh;
+  height: clamp(80svh, 180vw, 140svh);
 
   font-family: 'Youth', serif;
-  font-size: 10.6rem;
+  font-size: clamp(5rem, 13.3vw, 10.6rem);
   letter-spacing: -0.5rem;
   text-align: center;
 
   color: #a39b8b;
   background: var(--background-color);
 
+  @include mix.media(mobile) {
+    letter-spacing: -0.2rem;
+  }
+
   &__top, &__bottom {
     @include mix.absolute-center;
+
     max-width: 160rem;
     width: 100%;
+    padding-inline: var(--padding-container);
   }
 
   &__top {

@@ -36,21 +36,30 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
 
-  height: 100svh;
+  height: clamp(80svh, 160vw, 100svh);
   text-align: center;
 
   &__text {
     max-width: 100rem;
+    padding-inline: var(--padding-container);
 
     font-family: 'Youth', sans-serif;
-    @include mix.text-style(10.6rem);
-    line-height: 1;
+    @include mix.text-style(clamp(5rem, 13.3vw, 10.6rem), $lineHeight: 1);
     letter-spacing: -0.5rem;
 
     transform: translateY(min(0.001px, -100px + v-bind('scrollTextProgress') * 200px));
 
     & > :deep(span) {
       opacity: max(0.4, v-bind('scrollTextProgress') / (var(--char-index) / var(--text-length)));
+
+      @include mix.media(tablet) {
+        opacity: 1;
+      }
+    }
+
+    @include mix.media(mobile) {
+      transform: none;
+      letter-spacing: -0.2rem;
     }
   }
 }

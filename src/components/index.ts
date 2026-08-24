@@ -14,3 +14,5 @@ export { default as AppButton } from '@/components/UI/AppButton.vue'
 
 export { default as HeaderBurger } from '@/components/Header/HeaderBurger.vue'
 export { default as HeaderNavigation } from '@/components/Header/HeaderNavigation.vue'
+
+export { default as MediaSliderBlock } from '@/components/MediaSlider/MediaSliderBlock.vue'

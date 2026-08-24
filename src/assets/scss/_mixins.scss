@@ -322,3 +322,7 @@
   width: $size;
   height: $size;
 }
+
+@function ruber($size, $screen: 192) {
+  @return calc($size / $screen * 100 * 1vw);
+}

@@ -100,11 +100,15 @@ import PlusIcon from '@/assets/icons/plus.svg'
   display: flex;
   height: 100svh;
   max-height: 85rem;
-  padding: 8.5rem var(--padding-container) 7.8rem;
+  padding: clamp(3.5rem, mix.ruber(5.5, 147), 8.5rem) var(--padding-container) clamp(3.8rem, mix.ruber(5.8, 147), 7.8rem);
 
   background: #a39b8b;
   color: var(--light-text-color);
   overflow: hidden;
+
+  @include mix.media(laptop-l) {
+    height: auto;
+  }
 
   &__container {
     display: flex;
@@ -119,11 +123,17 @@ import PlusIcon from '@/assets/icons/plus.svg'
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     align-items: start;
+    gap: 2.4rem;
+
+    @include mix.media(mobile) {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 4rem;
+    }
   }
 
   &__title, &__link > a {
     font-family: 'Youth', sans-serif;
-    @include mix.title(4.8rem, 400, inherit, 0.97);
+    @include mix.title(clamp(2.4rem, mix.ruber(4, 102), 4.8rem), 400, inherit, 0.97);
     letter-spacing: -0.048rem;
   }
 
@@ -133,6 +143,10 @@ import PlusIcon from '@/assets/icons/plus.svg'
     margin: 0;
 
     opacity: 0.6;
+
+    @include mix.media(mobile) {
+      grid-column: unset;
+    }
   }
 
   &__links, &__bottom-links {
@@ -157,19 +171,27 @@ import PlusIcon from '@/assets/icons/plus.svg'
 
   &__block {
     max-width: 34rem;
+
+    @include mix.media(mobile) {
+      grid-column: 1 / 3;
+    }
   }
 
   &__subtitle {
     margin-block: 0 2rem;
 
     font-family: var(--main-font);
-    @include mix.text-style(2.9rem, 400, inherit, 1.1);
+    @include mix.text-style(clamp(1.8rem, mix.ruber(2.4, 102), 2.9rem), 400, inherit, 1.1);
     letter-spacing: -0.029rem;
+
+    @include mix.media(mobile) {
+      margin-bottom: 1.2rem;
+    }
   }
 
   &__text {
     font-family: var(--mono-font);
-    @include mix.text-style(1.3rem, 400, inherit, 1.77);
+    @include mix.text-style(clamp(1rem, mix.ruber(1.2, 102), 1.3rem), 400, inherit, 1.77);
     text-transform: uppercase;
     letter-spacing: 0.066rem;
 
@@ -183,13 +205,17 @@ import PlusIcon from '@/assets/icons/plus.svg'
     margin-bottom: 4rem;
 
     font-family: var(--mono-font);
-    @include mix.text-style(1.3rem, 400, inherit, 1.8);
+    @include mix.text-style(clamp(1rem, mix.ruber(1.2, 102), 1.3rem), 400, inherit, 1.8);
     text-transform: uppercase;
 
     @include mix.hover {
       #{$this}__arrow > svg:first-child {
         transform: scale(1.1) rotate(50deg);
       }
+    }
+
+    @include mix.media(mobile) {
+      margin-bottom: 2.4rem;
     }
   }
 
@@ -228,19 +254,34 @@ import PlusIcon from '@/assets/icons/plus.svg'
   }
 
   &__bottom {
+    $bottom: &;
     position: relative;
 
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    align-items: center;
 
     padding-top: 6rem;
     border-top: 1px solid rgba(#f2efe9, 0.2);
+
+    @include mix.media(laptop-l) {
+      grid-template-columns: auto 1fr;
+      gap: 2rem 1.5rem;
+      padding-top: 2.6rem;
+    }
+
+    @include mix.media(tablet-s) {
+      grid-template-columns: auto;
+      row-gap: 1.6rem;
+      padding-top: 1.6rem;
+    }
 
     &-left {
       @include mix.flex-row(2.6rem);
     }
 
     &-links {
+      flex-shrink: 0;
       @include mix.flex-row(1.3rem);
 
       & > li:not(:first-child) {
@@ -256,6 +297,29 @@ import PlusIcon from '@/assets/icons/plus.svg'
 
     &-right {
       justify-self: end;
+
+      @include mix.media(laptop-l) {
+        justify-self: unset;
+      }
+
+      @include mix.media(custom, #{vars.$breakpoint_tablet-s + 1px}, #{vars.$breakpoint_laptop-l}) {
+        #{$bottom}-links > li {
+          @include mix.flex-row(1.3rem);
+
+          &::before {
+            content: '';
+            display: block;
+            @include mix.circle(3px, null, var(--light-text-color));
+          }
+        }
+      }
+
+      @include mix.media(tablet-s) {
+        width: 100%;
+        padding-top: 1.6rem;
+        border-top: 1px solid rgba(#f2efe9, 0.2);
+        overflow: auto;
+      }
     }
   }
 
@@ -282,10 +346,31 @@ import PlusIcon from '@/assets/icons/plus.svg'
     & > svg {
       @include mix.full-size;
     }
+
+    @include mix.media(laptop-l) {
+      display: none;
+    }
   }
 
   &__copyright {
     text-align: center;
+
+    @include mix.media(laptop-l) {
+      grid-row: 2;
+      grid-column: 1 / 3;
+
+      padding-top: 2rem;
+      border-top: 1px solid rgba(#f2efe9, 0.2);
+    }
+
+    @include mix.media(laptop-l) {
+      grid-column: unset;
+      grid-row: 3;
+    }
+
+    @include mix.media(tablet-s) {
+      padding-top: 1.6rem;
+    }
   }
 }
 </style>

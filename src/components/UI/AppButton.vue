@@ -93,7 +93,7 @@ function onMouseEnter() {
 <style scoped lang="scss">
 .button {
   display: block;
-  padding: 4rem 4.7rem;
+  padding: clamp(2.5rem, mix.ruber(3.2), 4rem) clamp(3.5rem, mix.ruber(3.7), 4.7rem);
 
   font-family: var(--mono-font);
   font-size: 1.4rem;
@@ -102,7 +102,7 @@ function onMouseEnter() {
 
   border: none;
   background: none;
-  border-radius: 1.6rem;
+  border-radius: clamp(0.8rem, mix.ruber(1.2), 1.6rem);
 
   &.--primary {
     background: var(--main-color);

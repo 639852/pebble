@@ -1,5 +1,5 @@
 :root {
-  --padding-container: 3.6rem;
+  --padding-container: clamp(1.5rem, 1.46vw, 3.6rem);
   --container: 192rem;
 
   --text-color: #575349;

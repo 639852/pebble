@@ -17,7 +17,7 @@ export default defineConfigWithVueTs(
   globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
 
   ...pluginVue.configs['flat/recommended'],
-  vueTsConfigs.recommended,
+  vueTsConfigs.recommendedTypeChecked,
   // ...new FlatCompat({
   //   baseDirectory: path.dirname(url.fileURLToPath(import.meta.url))
   // }).extends('eslint-config-standard'),

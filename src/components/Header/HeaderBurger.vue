@@ -13,7 +13,7 @@
   $this: &;
 
   @include mix.flex-center;
-  @include mix.box(10.8rem);
+  @include mix.box(clamp(6rem, mix.ruber(9), 10.8rem));
   cursor: pointer;
 
   @include mix.hover {

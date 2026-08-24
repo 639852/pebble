@@ -3,7 +3,7 @@
  * @type {import("prettier").Config}
  */
 
-const config = {
+const config: import("prettier").Config = {
   $schema: 'https://json.schemastore.org/prettierrc',
   semi: false,
   singleQuote: true,

@@ -79,9 +79,19 @@ const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
     padding: var(--padding-container);
 
     font-family: "Youth", serif;
-    @include mix.title(39.6rem, 500, var(--light-text-color), 0.8);
+    @include mix.title(clamp(20rem, mix.ruber(30), 39.6rem), 500, var(--light-text-color), 0.8);
     letter-spacing: -1.6rem;
     text-align: center;
+
+    @include mix.media(tablet) {
+      top: 15%;
+      font-size: clamp(9rem, mix.ruber(40), 40rem);
+      letter-spacing: -1rem;
+    }
+
+    @include mix.media(mobile) {
+      letter-spacing: -0.3rem;
+    }
   }
 
   &__video {
@@ -89,11 +99,11 @@ const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
     bottom: var(--padding-container);
     right: var(--padding-container);
 
-    width: 59.7rem;
-    aspect-ratio: 597 / 402;
+    width: clamp(34.6rem, mix.ruber(45), 59.7rem);
+    aspect-ratio: 3 / 2;
     padding: 0.4rem;
 
-    border-radius: 2rem;
+    border-radius: clamp(0.8rem, mix.ruber(12), 2rem);
     cursor: pointer;
     background: var(--light-background-color);
 
@@ -112,7 +122,7 @@ const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
 
   &__play {
     @include mix.absolute-center;
-    @include mix.box(8rem);
+    @include mix.box(clamp(4rem, mix.ruber(6), 8rem));
 
     color: var(--light-text-color);
     transition: transform 500ms cubic-bezier(0, 0, 0.2, 1);
@@ -123,7 +133,7 @@ const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
 
     & &-icon {
       @include mix.absolute-center;
-      @include mix.box(1.2rem);
+      @include mix.box(clamp(0.6rem, mix.ruber(0.9), 1.2rem));
       color: var(--icon-color);
     }
   }

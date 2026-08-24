@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, ref, useTemplateRef } from 'vue'
+import { useMediaQuery } from '@/composables'
+import { splitString } from '@/helpers'
 import { firstImage, secondImage, video } from '@/assets/data/splitImages'
 
 import type { ComputedRef } from 'vue'
-import { splitString } from '@/helpers'
 
 const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
 const splitImagesEl = useTemplateRef('splitImagesEl')
+const isTablet = useMediaQuery('(max-width: 1024px)')
 const isLeft = ref(true)
 
 const scrollImagesProgress = computed(() => {
@@ -42,7 +44,7 @@ onMounted(() => {
   <div
     ref="splitImagesEl"
     class="split-images"
-    :class="{ '--video': scrollImagesProgress > 1, '--left': isLeft, '--right': !isLeft, '--end': scrollImagesProgress > 2.6 }"
+    :class="{ '--video': scrollImagesProgress > 1 || isTablet, '--left': isLeft, '--right': !isLeft, '--end': scrollImagesProgress > 2.6 }"
     @mousemove="onMouseMove"
   >
     <div class="split-images__wrapper">
@@ -104,10 +106,14 @@ onMounted(() => {
 <style scoped lang="scss">
 .split-images {
   $this: &;
-  $padding: 1.8rem;
+  --padding: 1.8rem;
 
   position: relative;
   z-index: vars.$ui-index-2;
+
+  @include mix.media(tablet) {
+    --padding: calc(var(--padding-container) / 2);
+  }
 
   &.--left {
     #{$this}__right-container {
@@ -123,7 +129,7 @@ onMounted(() => {
     }
 
     #{$this}__right #{$this}__text {
-      transform: translateY(calc(100% + $padding));
+      transform: translateY(calc(100% + var(--padding)));
     }
 
     #{$this}__left #{$this}__title {
@@ -145,7 +151,7 @@ onMounted(() => {
     }
 
     #{$this}__left #{$this}__text {
-      transform: translateY(calc(100% + $padding));
+      transform: translateY(calc(100% + var(--padding)));
     }
 
     #{$this}__right #{$this}__text {
@@ -212,7 +218,20 @@ onMounted(() => {
 
     #{$this}__left #{$this}__text,
     #{$this}__right #{$this}__text {
-      transform: translateY(calc(100% + $padding));
+      transform: translateY(calc(100% + var(--padding)));
+    }
+
+    #{$this}__left #{$this}__text {
+      @include mix.media(tablet) {
+        z-index: 1;
+        transform: translateY(calc(-100% - var(--padding) * 3));
+      }
+    }
+
+    #{$this}__right #{$this}__text {
+      @include mix.media(tablet) {
+        transform: none;
+      }
     }
 
     #{$this}__video #{$this}__title {
@@ -221,14 +240,27 @@ onMounted(() => {
     }
 
     #{$this}__video #{$this}__text {
-      transform: translateY(calc(100% + $padding));
+      transform: translateY(calc(100% + var(--padding)));
     }
   }
 
   &.--end {
     #{$this}__video #{$this}__text {
       transform: none;
-    } 
+    }
+
+    @include mix.media(tablet) {
+      #{$this}__left #{$this}__text {
+        transform:
+          translateY(calc(-100% - var(--padding) * 3))
+          translateX(calc(-100% - var(--padding) * 3))
+        ;
+      }
+
+      #{$this}__right #{$this}__text {
+        transform: translateX(calc(100% + var(--padding) * 3));
+      }
+    }
   }
 
   &__wrapper {
@@ -236,7 +268,7 @@ onMounted(() => {
     top: 0;
 
     height: 400svh;
-    margin-top: -100svh;
+    margin-top: clamp(-100svh, -100vw + 375px, 0svh);
 
     background: #a39b8b;
   }
@@ -246,12 +278,12 @@ onMounted(() => {
     top: 0;
 
     height: 100svh;
-    padding: $padding;
+    padding: var(--padding);
   }
 
   &__left, &__left-container, &__right, &__right-container {
     @include mix.full-size;
-    border-radius: 2.7rem;
+    border-radius: clamp(1.2rem, mix.ruber(2.4), 2.7rem);
     overflow: hidden;
   }
 
@@ -265,10 +297,10 @@ onMounted(() => {
 
   &__right {
     position: absolute;
-    inset: $padding;
+    inset: var(--padding);
 
-    width: calc(100% - $padding * 2);
-    height: calc(100% - $padding * 2);
+    width: calc(100% - var(--padding) * 2);
+    height: calc(100% - var(--padding) * 2);
 
     &-container {
       position: absolute;
@@ -295,7 +327,7 @@ onMounted(() => {
     width: 50%;
 
     font-family: 'Youth', sans-serif;
-    font-size: 10.7rem;
+    font-size: clamp(3.6rem, mix.ruber(10), 10.7rem);
     letter-spacing: -0.53rem;
     line-height: 1;
     text-align: center;
@@ -307,32 +339,40 @@ onMounted(() => {
 
     &.--left {
       right: auto;
-      left: $padding;
+      left: var(--padding);
     }
 
     &.--right {
       left: auto;
-      right: $padding;
+      right: var(--padding);
     }
 
     & > span {
       display: block;
       transform: translateY(v-bind('titleTransform'));
     }
+
+    @include mix.media(tablet) {
+      letter-spacing: -0.128rem;
+
+      #{$this}__video & {
+        width: 100%;
+      }
+    }
   }
 
   &__text {
     position: absolute;
-    bottom: $padding;
-    left: $padding;
+    bottom: var(--padding);
+    left: var(--padding);
 
     max-width: 65.3rem;
-    padding: 7.1rem;
+    padding: clamp(1.8rem, mix.ruber(7), 7.1rem);
 
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, mix.ruber(1.8), 1.8rem);
     letter-spacing: -0.018rem;
     line-height: 1.55;
-    border-radius: 2.1rem;
+    border-radius: clamp(1.2rem, mix.ruber(2), 2.1rem);
 
     background: rgba(#d9d9d9, 0.13);
     color: var(--light-text-color);
@@ -342,12 +382,16 @@ onMounted(() => {
 
     &.--right {
       left: auto;
-      right: $padding;
+      right: var(--padding);
+
+      @include mix.media(tablet) {
+        left: var(--padding);
+      }
     }
   }
 
   &__video {
-    @include mix.absolute-cover($padding, calc(100% - $padding * 2), calc(100% - $padding * 2));
+    @include mix.absolute-cover(var(--padding), calc(100% - var(--padding) * 2), calc(100% - var(--padding) * 2));
     overflow: hidden;
     border-radius: 2.6rem;
 

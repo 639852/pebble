@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, useTemplateRef } from 'vue'
+import { inject, ref, useTemplateRef } from 'vue'
 import { useHeaderIntersect } from '@/composables'
 
 import LogoIcon from '@/assets/icons/logo.svg'
@@ -26,6 +26,7 @@ function onMouseLeave(event: MouseEvent) {
   burger!.style.pointerEvents = ''
 }
 
+const isVisible = ref(false)
 const headerEl = useTemplateRef('headerEl')
 const { isSecondary } = useHeaderIntersect(headerEl)
 </script>
@@ -50,8 +51,14 @@ const { isSecondary } = useHeaderIntersect(headerEl)
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
       >
-        <HeaderBurger class="header__burger" />
-        <HeaderNavigation class="header__nav" />
+        <HeaderBurger
+          class="header__burger"
+          @click="isVisible = !isVisible"
+        />
+        <HeaderNavigation
+          class="header__nav"
+          :visible="isVisible"
+        />
       </div>
 
       <AppButton
@@ -75,9 +82,9 @@ const { isSecondary } = useHeaderIntersect(headerEl)
 
   &__logo {
     display: block;
-    padding: 3.8rem;
+    padding: clamp(2.5rem, mix.ruber(3), 3.8rem);
 
-    border-radius: 2.1rem;
+    border-radius: clamp(0.8rem, mix.ruber(1.4), 2.1rem);
     color: var(--icon-color);
     background: var(--light-background-color);
     transition: background 500ms;
@@ -88,8 +95,8 @@ const { isSecondary } = useHeaderIntersect(headerEl)
     }
 
     & > svg {
-      width: 4.0rem;
-      height: 3.6rem;
+      width: clamp(2.5rem, mix.ruber(3), 4.0rem);
+      height: clamp(2.1rem, mix.ruber(2.6), 3.6rem);
 
       transform: rotate(calc(v-bind('pageScrollY') * 0.115 * 1deg));
     }
@@ -99,9 +106,17 @@ const { isSecondary } = useHeaderIntersect(headerEl)
     @include mix.flex-row(0.4rem);
 
     padding: 0.4rem;
-    border-radius: 2rem;
+    border-radius: clamp(0.8rem, mix.ruber(1.4), 2rem);
     background: var(--light-background-color);
     pointer-events: all;
+
+    @include mix.media(tablet) {
+      position: relative;
+
+      #{$this}.--secondary & {
+        background: var(--background-color);
+      }
+    }
   }
 
   &__menu {
@@ -128,6 +143,10 @@ const { isSecondary } = useHeaderIntersect(headerEl)
         transition-timing-function: ease-out;
       }
     }
+
+    @include mix.media(tablet) {
+      position: static;
+    }
   }
 
   &__burger {
@@ -143,10 +162,30 @@ const { isSecondary } = useHeaderIntersect(headerEl)
     right: 0;
 
     pointer-events: none;
+
+    @include mix.media(full-hd) {
+      top: -0.4rem;
+    }
+
+    @include mix.media(laptop-l) {
+      top: -0.5rem;
+    }
+
+    @include mix.media(laptop) {
+      top: -0.7rem;
+    }
+
+    @include mix.media(tablet) {
+      inset: 0 0 auto;
+
+      &.header-nav {
+        padding-top: 12cqh;
+      }
+    }
   }
 
   &__button.button {
-    font-size: 2.1rem;
+    font-size: clamp(1.4rem, mix.ruber(1.8), 2.1rem);
   }
 }
 </style>
