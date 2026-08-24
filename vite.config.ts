@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => ({
       manifest: {
         short_name: 'Pebble',
         name: 'Pebble - 639852 pet project',
-        start_url: '/',
+        start_url: '/pebble',
         display: 'standalone',
         theme_color: '#575349',
         background_color: '#d7d1c6',
