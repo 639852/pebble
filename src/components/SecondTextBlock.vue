@@ -48,9 +48,11 @@ onMounted(() => {
     letter-spacing: -0.5rem;
 
     transform: translateY(min(0.001px, -100px + v-bind('scrollTextProgress') * 200px));
+    will-change: transform;
 
     & > :deep(span) {
       opacity: max(0.4, v-bind('scrollTextProgress') / (var(--char-index) / var(--text-length)));
+      will-change: opacity;
 
       @include mix.media(tablet) {
         opacity: 1;

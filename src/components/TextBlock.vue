@@ -119,9 +119,11 @@ onMounted(() => {
 
     & > p > :deep(span) {
       opacity: max(0.2, 1 - var(--char-index) / var(--text-length) + v-bind('scrollTextProgress') - (var(--text-length) - var(--char-index)) / 100);
+      will-change: opacity;
 
       #{$this}.--intersect & {
         opacity: max(0, 1 - (v-bind('scrollTextProgress') * 2 - (var(--char-index) / var(--text-length))));
+        will-change: opacity;
       }
 
       #{$this}.--transition & {
@@ -139,6 +141,7 @@ onMounted(() => {
 
       #{$this}.--intersect & {
         opacity: min(1, v-bind('scrollTextProgress') / 2 - (var(--char-index) / var(--text-length) / 2));
+        will-change: opacity;
       }
     }
   }

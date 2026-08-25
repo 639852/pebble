@@ -53,6 +53,7 @@ const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
   position: relative;
   @include mix.figure(100svw, 100svh);
   transform: scale(max(0.971, 1 - (v-bind('pageScrollY') / 20000)));
+  will-change: transform;
 
   &__image {
     @include mix.absolute-cover;
@@ -60,10 +61,12 @@ const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
 
     overflow: hidden;
     border-radius: min(30px, 1px * v-bind('pageScrollY') / 20);
+    will-change: border-radius;
 
     &-wrapper {
       @include mix.full-size;
       transform: translate3d(0, min(100% * 0.2, v-bind('pageScrollY') * 0.2 * 1px), 0);
+      will-change: transform;
 
       & > img {
         @include mix.full-size;

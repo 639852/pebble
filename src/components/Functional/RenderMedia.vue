@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h, ref, resolveDirective, withDirectives } from "vue";
+import { computed, h, ref, withDirectives } from "vue";
 
 interface Attrs {
   [key: string]: string;
@@ -25,13 +25,13 @@ const props = withDefaults(defineProps<RenderMediaProps>(), {
   loading: "lazy",
 });
 
-const skeleton = resolveDirective("skeleton");
+// const skeleton = resolveDirective("skeleton");
 const selector = ref<HTMLMediaElement>();
 
 const IMAGE_TEMPLATE = computed(() =>
   withDirectives(
     h("img", { ...props.imageAttrs, src: props.data.src, loading: props.loading }),
-    props.noSkeleton ? [] : [[skeleton, true]]
+    props.noSkeleton ? [] : []
   )
 );
 
@@ -45,7 +45,7 @@ const VIDEO_TEMPLATE = computed(() =>
         type: props.data.src?.endsWith(".webm") ? "video/webm" : "video/mp4",
       })
     ),
-    props.noSkeleton ? [[skeleton, true]] : []
+    props.noSkeleton ? [] : []
   )
 );
 
@@ -58,7 +58,7 @@ const MediaElem = computed(() => {
       return () => VIDEO_TEMPLATE.value;
 
     default:
-      console.warn(`!тип '${props.data.type}' не соответствует ни 'image', ни 'video'`);
+      console.warn(`!тип '${props.data.type as string}' не соответствует ни 'image', ни 'video'`);
       return h("img", { alt: "" });
   }
 });

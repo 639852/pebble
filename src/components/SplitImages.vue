@@ -237,10 +237,36 @@ onMounted(() => {
     #{$this}__video #{$this}__title {
       transform: translate(-50%, -50%) scale(min(1, v-bind('scrollImagesProgress') - 0.8));
       opacity: min(1, v-bind('scrollImagesProgress') - 1.5);
+      will-change: transform, opacity;
     }
 
     #{$this}__video #{$this}__text {
       transform: translateY(calc(100% + var(--padding)));
+    }
+
+    #{$this}__right-container,
+    #{$this}__right #{$this}__image {
+      transition: none;
+    }
+
+    @include mix.media(tablet) {
+      &.--left, &.--right {
+        #{$this}__right-container {
+          transform: translateX(calc(50% + v-bind('scrollImagesProgress') * 20%));
+        }
+
+        #{$this}__right #{$this}__image {
+          transform: translateX(calc(-50% + v-bind('scrollImagesProgress') * -20%));
+        }
+
+        #{$this}__left-container {
+          transform: translateX(calc(-33% - v-bind('scrollImagesProgress') * 25%));
+        }
+
+        #{$this}__left #{$this}__image {
+          transform: translateX(calc(33% - v-bind('scrollImagesProgress') * -25%));
+        }
+      }
     }
   }
 
@@ -285,6 +311,7 @@ onMounted(() => {
     @include mix.full-size;
     border-radius: clamp(1.2rem, mix.ruber(2.4), 2.7rem);
     overflow: hidden;
+    // will-change: transform;
   }
 
   &__left {
@@ -315,6 +342,7 @@ onMounted(() => {
   &__image {
     @include mix.full-size;
     pointer-events: none;
+    will-change: transform;
 
     & > img {
       @include mix.full-size;
@@ -336,6 +364,7 @@ onMounted(() => {
     pointer-events: none;
     opacity: calc(v-bind('scrollImagesProgress') * 1.2);
     transition: transform 700ms cubic-bezier(0.25, 0.75, 0.75, 1);
+    will-change: opacity;
 
     &.--left {
       right: auto;
@@ -350,6 +379,11 @@ onMounted(() => {
     & > span {
       display: block;
       transform: translateY(v-bind('titleTransform'));
+      will-change: transform;
+
+      & > :deep(span) {
+        will-change: opacity;
+      }
     }
 
     @include mix.media(tablet) {

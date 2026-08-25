@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => ({
       injectRegister: 'auto',
       devOptions: { enabled: true },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,svg}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,webp,svg,mp4,webm,woff,woff2}'],
         maximumFileSizeToCacheInBytes: 5_242_880,
       },
       includeAssets: ['fonts/*.{woff,woff2}','images/*.{png,jpg,jpeg,webp}', 'videos/*.{mp4,webm}','css/*.css', 'js/*.js'],
@@ -48,12 +48,12 @@ export default defineConfig(({ mode }) => ({
         lang: 'en',
         icons: [
           {
-            src: '/images/icon_192x192.png',
+            src: `${(mode === 'development') ? '' : '/pebble'}/images/icon_192x192.png`,
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/images/icon_512x512.png',
+            src: `${(mode === 'development') ? '' : '/pebble'}/images/icon_512x512.png`,
             sizes: '512x512',
             type: 'image/png',
           },

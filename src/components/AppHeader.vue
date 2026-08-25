@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, useTemplateRef } from 'vue'
+import { inject, onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 import { useHeaderIntersect } from '@/composables'
 
 import LogoIcon from '@/assets/icons/logo.svg'
@@ -29,6 +29,23 @@ function onMouseLeave(event: MouseEvent) {
 const isVisible = ref(false)
 const headerEl = useTemplateRef('headerEl')
 const { isSecondary } = useHeaderIntersect(headerEl)
+
+function onOutsideClick(event: MouseEvent) {
+  console.log("gg");
+
+  const target = event.target as HTMLElement
+
+  if (target.closest('.header')) return
+  isVisible.value = false
+}
+
+onMounted(() => {
+  window.addEventListener('pointerup', onOutsideClick)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('pointerup', onOutsideClick)
+})
 </script>
 
 <template>
@@ -53,7 +70,7 @@ const { isSecondary } = useHeaderIntersect(headerEl)
       >
         <HeaderBurger
           class="header__burger"
-          @click="isVisible = !isVisible"
+          @pointerup="isVisible = !isVisible"
         />
         <HeaderNavigation
           class="header__nav"

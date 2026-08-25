@@ -112,6 +112,7 @@ const scrollSliderProgress = computed(() => {
 
     &:not(:first-child) {
       transform: translateY(max(0.001px, (var(--media-index) * 100%) - v-bind('scrollSliderProgress') * (var(--media-count) * 100%)));
+      will-change: transform;
 
       & > :is(img, video) {
         transform: translateY(min(0.001px, (var(--media-index) * 100%) - v-bind('scrollSliderProgress') * (var(--media-count) * -100%)));
@@ -121,6 +122,7 @@ const scrollSliderProgress = computed(() => {
     & > :is(img, video) {
       @include mix.full-size;
       object-fit: cover;
+      will-change: transform;
     }
   }
 }

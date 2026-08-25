@@ -75,6 +75,7 @@ onMounted(() => {
   &__inner {
     @include mix.full-size;
     transform: scale(max(0.971, 1 - max(0, v-bind('scrollBlockProgress')) * 0.033));
+    will-change: transform;
   }
 
   &__image {
@@ -83,12 +84,14 @@ onMounted(() => {
 
     overflow: hidden;
     border-radius: min(30px, max(0, v-bind('scrollBlockProgress')) * 45px);
+    will-change: border-radius;
 
     &-wrapper {
       --max: 20%;
 
       @include mix.full-size;
       transform: translate3d(0, clamp(-60%, v-bind('scrollBlockProgress') * 20%, var(--max)), 0);
+      will-change: transform;
 
       & > img {
         @include mix.full-size;
@@ -122,6 +125,7 @@ onMounted(() => {
     text-transform: uppercase;
 
     transform: translate3d(0, clamp(-50svh, v-bind('scrollBlockProgress') * 15svh, 0%), 0);
+    will-change: transform;
   }
 
   &__title {
@@ -138,6 +142,7 @@ onMounted(() => {
 
     & > :deep(span) {
       transform: translate3d(0, max(-130%, v-bind('scrollBlockProgress') * 17% * (var(--words-count) - var(--word-index))), 0);
+      will-change: transform;
 
       @include mix.media(tablet) {
         transform: translate3d(0, max(-130%, (1 / v-bind('scrollBlockProgress') * 50% * (var(--word-index) + 1)) - 50% * var(--word-index)), 0);
