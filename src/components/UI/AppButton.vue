@@ -104,6 +104,11 @@ function onMouseEnter() {
   background: none;
   border-radius: clamp(0.8rem, mix.ruber(1.2), 1.6rem);
 
+  &.--small {
+    padding: 1.2rem 2.4rem;
+    font-size: 1.2rem;
+  }
+
   &.--primary {
     background: var(--main-color);
     color: var(--light-text-color);

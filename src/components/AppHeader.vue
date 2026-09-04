@@ -31,8 +31,6 @@ const headerEl = useTemplateRef('headerEl')
 const { isSecondary } = useHeaderIntersect(headerEl)
 
 function onOutsideClick(event: MouseEvent) {
-  console.log("gg");
-
   const target = event.target as HTMLElement
 
   if (target.closest('.header')) return

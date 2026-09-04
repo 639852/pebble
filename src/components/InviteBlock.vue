@@ -70,7 +70,7 @@ onMounted(() => {
 .invite-block {
   $this: &;
   position: relative;
-  @include mix.figure(100svw, 100svh, $background: #a39b8b);
+  @include mix.figure(100%, 100svh, $background: #a39b8b);
 
   &__inner {
     @include mix.full-size;

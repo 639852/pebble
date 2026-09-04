@@ -11,6 +11,7 @@ export { default as AppPopover } from '@/components/Functional/AppPopover.vue'
 export { default as RenderMedia } from '@/components/Functional/RenderMedia.vue'
 
 export { default as AppButton } from '@/components/UI/AppButton.vue'
+export { default as AppNotification } from '@/components/UI/AppNotification.vue'
 
 export { default as HeaderBurger } from '@/components/Header/HeaderBurger.vue'
 export { default as HeaderNavigation } from '@/components/Header/HeaderNavigation.vue'

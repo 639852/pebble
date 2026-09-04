@@ -51,7 +51,7 @@ const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
   $this: &;
 
   position: relative;
-  @include mix.figure(100svw, 100svh);
+  @include mix.figure(100%, 100svh);
   transform: scale(max(0.971, 1 - (v-bind('pageScrollY') / 20000)));
   will-change: transform;
 

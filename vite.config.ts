@@ -1,3 +1,7 @@
+/**
+ * @noformat
+ */
+
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
@@ -14,20 +18,20 @@ export default defineConfig(({ mode }) => ({
     vue(),
     vueJsx(),
     vueDevTools(),
-		svgLoader({
-			svgoConfig: {
-				plugins: [
-					{
-						name: 'preset-default',
-						params: {
-							overrides: {
-								removeViewBox: false,
-							},
-						},
-					},
-				],
-			},
-		}),
+    svgLoader({
+      svgoConfig: {
+        plugins: [
+          {
+            name: 'preset-default',
+            params: {
+              overrides: {
+                removeViewBox: false,
+              },
+            },
+          },
+        ],
+      },
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
@@ -57,6 +61,12 @@ export default defineConfig(({ mode }) => ({
             sizes: '512x512',
             type: 'image/png',
           },
+          {
+            src: `${(mode === 'development') ? '' : '/pebble'}/images/icon_512x512.png`,
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
         ],
         prefer_related_applications: false
       },
@@ -67,10 +77,10 @@ export default defineConfig(({ mode }) => ({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-	css: {
-		preprocessorOptions: {
-			scss: {
-				additionalData: `
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
           @use '@/assets/scss/variables' as vars;
           @use '@/assets/scss/mixins' as mix;
         `,
