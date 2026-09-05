@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { provide, ref } from 'vue'
-import { AppFooter, AppHeader, AppHero, AppNotification, InviteBlock, MediaSlider, SecondTextBlock, SplitImages, TextBlock } from '@/components'
+import { AppFooter, AppHeader } from '@/components'
 
 const scrollProgress = ref(0)
 const pageScrollY = ref(0)
@@ -20,13 +20,7 @@ provide('pageScrollY', pageScrollY)
       <AppHeader />
     </div>
     <main class="layout__content">
-      <AppHero />
-      <TextBlock />
-      <SplitImages />
-      <SecondTextBlock />
-      <MediaSlider />
-      <InviteBlock />
-      <AppNotification />
+      <slot></slot>
     </main>
     <div class="layout__footer">
       <AppFooter />

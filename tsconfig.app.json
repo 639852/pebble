@@ -1,14 +1,16 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "prettier.config.ts"],
-  "exclude": ["src/**/__tests__/*"],
+  // "target": "ESNext",
+  // "lib": ["ESNext", "DOM", "DOM.Iterable"],
+  "include": ["env.d.ts", "resources/**/*", "resources/**/*.vue", "prettier.config.ts"],
+  "exclude": ["node_modules", "resources/**/__tests__/*"],
   "compilerOptions": {
     // Extra safety for array and object lookups, but may have false positives.
     "noUncheckedIndexedAccess": true,
 
     // Path mapping for cleaner imports.
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./resources/client/*"]
     },
 
     // `vue-tsc --build` produces a .tsbuildinfo file for incremental type-checking.

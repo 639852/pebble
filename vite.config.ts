@@ -5,6 +5,9 @@
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
+import laravel from 'laravel-vite-plugin'
+import inertia from '@inertiajs/vite'
+
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
@@ -15,7 +18,20 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig(({ mode }) => ({
   base: (mode === 'development') ? '/' : '/pebble/',
   plugins: [
-    vue(),
+    laravel({
+			buildDirectory: "app/client",
+      input: ['resources/client/app.ts'],
+      refresh: true,
+    }),
+    inertia(),
+    vue({
+      template: {
+        transformAssetUrls: {
+          base: null,
+          includeAbsolute: false,
+        },
+      },
+    }),
     vueJsx(),
     vueDevTools(),
     svgLoader({
@@ -74,7 +90,8 @@ export default defineConfig(({ mode }) => ({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./resources/client', import.meta.url)),
+      '~': fileURLToPath(new URL('./node_modules', import.meta.url)),
     },
   },
   css: {
@@ -85,6 +102,21 @@ export default defineConfig(({ mode }) => ({
           @use '@/assets/scss/mixins' as mix;
         `,
       },
+    },
+  },
+	build: {
+		manifest: 'manifest.json',
+		chunkSizeWarningLimit: 1600,
+	},
+  server: {
+    watch: {
+      ignored: [
+        '**/.agents/**',
+        '**/.claude/**',
+        '**/.cursor/**',
+        '**/.junie/**',
+        '**/vendor/**',
+      ],
     },
   },
 }))

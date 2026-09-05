@@ -16,6 +16,8 @@ coverage
 *.local
 
 # Editor directories and files
+/.nova
+/.zed
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -38,3 +40,27 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# Laravel
+/bootstrap/ssr
+/node_modules
+/public/app
+/public/build
+/public/fonts-manifest.dev.json
+/public/hot
+/public/storage
+/resources/js/actions
+/resources/js/routes
+/resources/js/wayfinder
+/storage/*.key
+/storage/pail
+/vendor
+
+# Enviroment
+.phpunit.cache
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/auth.json

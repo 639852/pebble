@@ -7,7 +7,7 @@ import ArrowRightIcon from '@/assets/icons/arrow-right.svg'
 import { AppButton } from '@/components'
 
 interface MediaSliderBlockProps {
-  scrollProgress: number;
+  scrollProgress: number
 }
 const props = defineProps<MediaSliderBlockProps>()
 
@@ -30,7 +30,7 @@ watch(currentSlide, () => {
   let x = 0
 
   for (let i = 0; i < index; i++) {
-    const element = buttonEl.value?.[i];
+    const element = buttonEl.value?.[i]
 
     x += (element?.offsetWidth ?? 0) + 26
   }
@@ -41,14 +41,17 @@ watch(currentSlide, () => {
   const buttonsParrentWidth = buttonEl.value?.[0]?.parentElement?.offsetWidth ?? 0
   const buttonsWidth = buttonEl.value?.reduce((result, element) => result + element.offsetWidth + 26, 141) ?? 0
 
-  buttonsTransform.value = `${(buttonsParrentWidth - buttonsWidth) / buttons.length * index}px`
+  buttonsTransform.value = `${((buttonsParrentWidth - buttonsWidth) / buttons.length) * index}px`
 })
 </script>
 
 <template>
   <div class="media-slider__block">
     <div class="media-slider__block-wrapper">
-      <Transition name="fade" mode="out-in">
+      <Transition
+        name="fade"
+        mode="out-in"
+      >
         <h3
           :key="currentSlide?.title"
           class="media-slider__title"
@@ -61,7 +64,10 @@ watch(currentSlide, () => {
         <PlusIcon />
       </div>
 
-      <Transition name="fade" mode="out-in">
+      <Transition
+        name="fade"
+        mode="out-in"
+      >
         <p
           :key="currentSlide?.title"
           class="media-slider__text"
@@ -178,7 +184,9 @@ watch(currentSlide, () => {
 
         background: var(--main-color);
         border-radius: 0.4rem;
-        transition: width 300ms, transform 300ms;
+        transition:
+          width 300ms,
+          transform 300ms;
       }
     }
 
@@ -313,7 +321,7 @@ watch(currentSlide, () => {
       content: '';
       @include mix.absolute-cover;
 
-      background: url(/src/assets/images/dots.png);
+      background: url(/resources/client/assets/images/dots.png);
       opacity: 0.4;
     }
   }
