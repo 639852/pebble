@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Facades;
+
+use App\Http\Controllers\Admin\UserController;
+use Illuminate\Support\Facades\Route;
+
+class AdminRoutes
+{
+    /**
+     * Get the resources routes of the component.
+     *
+     * @return array
+     */
+    public static function resources(): array
+    {
+        return [
+            Route::resource('users', UserController::class)->only(['edit', 'update']),
+            // Route::resource('example]', ExampleController::class)->except('show'),
+        ];
+    }
+
+    /**
+     * Get the content routes of the component.
+     *
+     * @return array
+     */
+    public static function content(): array
+    {
+        return [
+            Route::inertia('/', 'MainPage')->name('admin.home'),
+        ];
+    }
+
+    /**
+     * Get the datatable routes of the component.
+     *
+     * @return array
+     */
+    public static function datatables(): array
+    {
+        return [];
+    }
+
+    /**
+     * Get the ajax routes of the component.
+     *
+     * @return array
+     */
+    public static function ajax(): array
+    {
+        return [];
+    }
+}

@@ -15,12 +15,11 @@ import svgLoader from 'vite-svg-loader'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => ({
-  base: (mode === 'development') ? '/' : '/pebble/',
+export default defineConfig({
   plugins: [
     laravel({
-			buildDirectory: "app/client",
-      input: ['resources/client/app.ts'],
+			buildDirectory: 'app',
+      input: ['resources/client/app.ts', 'resources/admin/app.ts'],
       refresh: true,
     }),
     inertia(),
@@ -68,17 +67,17 @@ export default defineConfig(({ mode }) => ({
         lang: 'en',
         icons: [
           {
-            src: `${(mode === 'development') ? '' : '/pebble'}/images/icon_192x192.png`,
+            src: '/images/icon_192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: `${(mode === 'development') ? '' : '/pebble'}/images/icon_512x512.png`,
+            src: '/images/icon_512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: `${(mode === 'development') ? '' : '/pebble'}/images/icon_512x512.png`,
+            src: '/images/icon_512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
@@ -91,7 +90,7 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./resources/client', import.meta.url)),
-      '~': fileURLToPath(new URL('./node_modules', import.meta.url)),
+      '~': fileURLToPath(new URL('./resources/admin', import.meta.url)),
     },
   },
   css: {
@@ -118,5 +117,8 @@ export default defineConfig(({ mode }) => ({
         '**/vendor/**',
       ],
     },
+    // host: true,
+    // hmr: { host: "192.168.0.109" },
+    // cors: { origin: true },
   },
-}))
+})

@@ -15,7 +15,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        try {
+            // Глобально получаем настройки
+            $this->app->instance("GetterService", (DB::table('settings')->get())->mapWithKeys(function ($item) {
+                return [$item->name => $item->value];
+            }));
+        } catch (\Exception $exception) {
+            return;
+        }
     }
 
     /**
@@ -37,14 +44,15 @@ class AppServiceProvider extends ServiceProvider
             app()->isProduction(),
         );
 
-        Password::defaults(fn (): ?Password => app()->isProduction()
-            ? Password::min(12)
+        Password::defaults(
+            fn(): ?Password => app()->isProduction()
+                ? Password::min(12)
                 ->mixedCase()
                 ->letters()
                 ->numbers()
                 ->symbols()
                 ->uncompromised()
-            : null,
+                : null,
         );
     }
 }
