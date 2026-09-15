@@ -37,7 +37,7 @@ function useSidebarOptions() {
             },
             {
               key: 'test',
-              label: () => h(Link, { href: 'admin/content/test' }, { default: () => 'Test' }),
+              label: () => h(Link, { href: '/admin/content/test' }, { default: () => 'Test' }),
               icon: renderIcon(BeerOutline),
             },
           ],
@@ -54,7 +54,7 @@ function useSidebarOptions() {
             },
             {
               key: 'footer',
-              label: () => h(Link, { href: 'admin/content/footer' }, { default: () => 'Footer' }),
+              label: () => h(Link, { href: '/admin/content/footer' }, { default: () => 'Footer' }),
               icon: renderIcon(CaretDownCircleOutline),
             },
           ],

@@ -30,6 +30,7 @@ class AdminRoutes
     {
         return [
             Route::inertia('/', 'StartPage')->name('home'),
+            Route::inertia('/content/test', 'TestPage')->name('home'),
             Route::get('/content/main', [HomeController::class, 'index'])->name('main'),
             Route::post('/content/main/update', [HomeController::class, 'update'])->name('main.update'),
         ];

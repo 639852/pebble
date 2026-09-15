@@ -1,12 +1,30 @@
 <script setup lang="ts">
-import { NCard } from 'naive-ui'
+import { NDataTable } from 'naive-ui'
+
+interface User {
+  id: number
+  name: string
+  email: string
+  roles: [{ id: number; name: string }]
+}
+const props = defineProps<{ auth: { user: User } }>()
+
+const columns = [
+  { key: 'id', title: 'ID' },
+  { key: 'name', title: 'Name' },
+  { key: 'email', title: 'Email' },
+  { key: 'role', title: 'Role' },
+]
+
+const data = [
+  { ...props.auth.user, role: props.auth.user.roles[0].name },
+  { id: 2, name: 'Test user', email: 'test@example.com', role: 'user' },
+]
 </script>
 
 <template>
-  <NCard>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque ab adipisci quo quae deserunt vero veniam cumque velit dolorum dicta nobis harum
-      atque delectus veritatis iure maxime quas, aut corrupti?
-    </p>
-  </NCard>
+  <NDataTable
+    :columns="columns"
+    :data="data"
+  />
 </template>

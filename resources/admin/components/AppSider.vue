@@ -10,7 +10,7 @@ interface AppSiderProps {
 }
 defineProps<AppSiderProps>()
 
-const activeKey = ref<string>()
+const activeKey = ref<string | undefined>(location.pathname.split('/').at(-1))
 </script>
 
 <template>

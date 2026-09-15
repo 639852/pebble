@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3'
 import { NAvatar, NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NPageHeader, NSpace } from 'naive-ui'
 import { PersonCircleOutline } from '@vicons/ionicons5'
 
 const breadcrumbs = location.pathname
   .split('/')
   .filter((value) => value && value !== 'content')
-  .map((value) => `${value[0]?.toUpperCase()}${value.slice(1)}`)
+  .map((value) => ({ title: `${value[0]?.toUpperCase()}${value.slice(1)}`, link: `/${value}` }))
 </script>
 
 <template>
@@ -19,9 +20,10 @@ const breadcrumbs = location.pathname
           <NBreadcrumb>
             <NBreadcrumbItem
               v-for="item of breadcrumbs"
-              :key="item"
+              :key="item.link"
+              :clickable="item !== breadcrumbs.at(-1)"
             >
-              {{ item }}
+              <Link :href="item.link">{{ item.title }}</Link>
             </NBreadcrumbItem>
           </NBreadcrumb>
 
@@ -42,6 +44,10 @@ const breadcrumbs = location.pathname
     &:only-child {
       margin-bottom: 0;
     }
+  }
+
+  :deep(.n-breadcrumb-item:not(.n-breadcrumb-item--clickable)) {
+    pointer-events: none;
   }
 }
 </style>
