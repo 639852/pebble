@@ -13,7 +13,7 @@ class UserService
      * @param User $user
      * @return User
      */
-    public function update($request, $user): User
+    public function update(UserUpdateRequest $request, User $user): User
     {
         $user->update(
             array_replace(
@@ -31,7 +31,7 @@ class UserService
      * @param string|null $currentImage
      * @return null[]|string[]
      */
-    private function saveImage($request, $currentImage = null): array
+    private function saveImage(UserUpdateRequest $request, $currentImage = null): array
     {
         return [
             'image' => $request->hasFile('image') ? Storage::saveImage($request->file('image'), 'images/users', '256,256', $currentImage) : $currentImage

@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Models\CropperImage;
 use Gregwar\Image\Image;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
@@ -22,7 +21,7 @@ class Storage
      */
     public static function saveImage(UploadedFile $file, string $directory, ?string $crop = '', ?string $removeImage = ''): string
     {
-        $fullPath = FacadesStorage::put($directory, $file);
+        $fullPath = FacadesStorage::disk('public')->put($directory, $file);
 
         $image = Image::open(FacadesStorage::path($fullPath))->fixOrientation();
 
@@ -45,9 +44,9 @@ class Storage
             );
         }
 
-        empty($removeImage) || self::removeImage($removeImage);
+        if (!empty($removeImage)) self::removeImage($removeImage);
 
-        return '/storage/' . $directory . '/thumbs/' . basename($fullPath);
+        return '/storage/' . $directory . '/' . basename($fullPath);
     }
 
     /**
@@ -61,7 +60,7 @@ class Storage
      */
     public static function saveFile(UploadedFile $file, string $directory, ?string $removeFile = null): string
     {
-        $fullPath = FacadesStorage::put($directory, $file);
+        $fullPath = FacadesStorage::disk('public')->put($directory, $file);
 
         if (!empty($removeFile)) self::removeFile($removeFile);
 
@@ -82,8 +81,6 @@ class Storage
                 File::delete(FacadesStorage::path($file));
             }
         }
-
-        CropperImage::query()->where('src', '=', $path)->delete();
     }
 
     /**

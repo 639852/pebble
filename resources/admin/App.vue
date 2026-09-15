@@ -8,9 +8,15 @@ const { isCollapsed, items } = useSidebarOptions()
 </script>
 
 <template>
+  <!-- inertia props from backend -->
+  {{ console.log('props', $page.props) }}
+
   <NConfigProvider :theme="darkTheme">
     <NMessageProvider>
-      <NLayout has-sider>
+      <NLayout
+        has-sider
+        position="absolute"
+      >
         <NLayoutSider
           v-if="$page.component !== 'LoginPage'"
           bordered

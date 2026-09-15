@@ -2,6 +2,7 @@
 
 namespace App\Facades;
 
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +29,9 @@ class AdminRoutes
     public static function content(): array
     {
         return [
-            Route::inertia('/', 'MainPage')->name('admin.home'),
+            Route::inertia('/', 'StartPage')->name('home'),
+            Route::get('/content/main', [HomeController::class, 'index'])->name('main'),
+            Route::post('/content/main/update', [HomeController::class, 'update'])->name('main.update'),
         ];
     }
 

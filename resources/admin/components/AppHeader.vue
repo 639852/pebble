@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { NAvatar, NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NPageHeader, NSpace } from 'naive-ui'
 import { PersonCircleOutline } from '@vicons/ionicons5'
+
+const breadcrumbs = location.pathname
+  .split('/')
+  .filter((value) => value && value !== 'content')
+  .map((value) => `${value[0]?.toUpperCase()}${value.slice(1)}`)
 </script>
 
 <template>
@@ -12,10 +17,12 @@ import { PersonCircleOutline } from '@vicons/ionicons5'
           justify="space-between"
         >
           <NBreadcrumb>
-            <NBreadcrumbItem>Podcast</NBreadcrumbItem>
-            <NBreadcrumbItem>Best Collection</NBreadcrumbItem>
-            <NBreadcrumbItem>Ultimate Best Collection</NBreadcrumbItem>
-            <NBreadcrumbItem>Anyway.FM</NBreadcrumbItem>
+            <NBreadcrumbItem
+              v-for="item of breadcrumbs"
+              :key="item"
+            >
+              {{ item }}
+            </NBreadcrumbItem>
           </NBreadcrumb>
 
           <NAvatar round>

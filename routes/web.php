@@ -18,7 +18,7 @@ Route::middleware(RedirectIfAuthenticated::class . ':web')->group(function () {
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 
 /* Admin */
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     /* Content */
     AdminRoutes::content();
     /* Datatables */

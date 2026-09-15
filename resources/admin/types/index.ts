@@ -3,3 +3,5 @@ export interface LoginData {
   password: string
   remember: boolean
 }
+
+export type { Banner, Button, FirstTextBlock, InviteBlock, MediaSlider, TextWithMedia, TwoImagesBlock, MainPage } from '~/types/pages/MainPage'

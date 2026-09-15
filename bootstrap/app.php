@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\TrimStrings;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -35,7 +34,6 @@ return Application::configure(basePath: dirname(__DIR__))
             ConvertEmptyStringsToNull::class,
             StartSession::class,
             ShareErrorsFromSession::class,
-            EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
         ]);
 

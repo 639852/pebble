@@ -38,3 +38,20 @@ if (!function_exists('is_image')) {
         return in_array($extension, ['jpg', 'jpeg', 'png', 'webp']);
     }
 }
+
+if (!function_exists('array_values_recursive')) {
+    function array_values_recursive(array $array)
+    {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $array[$key] = array_values_recursive($value);
+            }
+        }
+
+        if (isset($array['children'])) {
+            $array['children'] = array_values($array['children']);
+        }
+
+        return $array;
+    }
+}
