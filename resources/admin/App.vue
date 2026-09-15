@@ -74,9 +74,9 @@ body {
     padding: 24px;
   }
 
-  // &__content {
-  //   height: 100%;
-  // }
+  &__content:has(.login-page) {
+    height: 100%;
+  }
 
   &__header {
     width: 100%;

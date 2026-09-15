@@ -4,7 +4,7 @@ set -e
 cd /var/www
 
 php artisan migrate --force --no-interaction
-php artisan cache
+composer run-script cache
 
 # Run PHP-FPM
 exec "$@"
