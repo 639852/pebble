@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, useTemplateRef } from 'vue'
 import { splitStringOnWords } from '@/helpers'
-import { buttons, content, firstImage, secondImage } from '@/assets/data/inviteBlock'
 
-import type { ComputedRef } from 'vue'
 import { AppButton } from '@/components'
+import type { ComputedRef } from 'vue'
+import type { InviteBlock } from '~/types'
+
+defineProps<{ data: InviteBlock }>()
 
 const inviteBlockEl = useTemplateRef('inviteBlockEl')
 const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
@@ -32,34 +34,49 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="inviteBlockEl" class="invite-block">
+  <div
+    ref="inviteBlockEl"
+    class="invite-block"
+  >
     <div class="invite-block__inner">
-      <div class="invite-block__image">
+      <div
+        v-if="data.firstImageSrc"
+        class="invite-block__image"
+      >
         <div class="invite-block__image-wrapper">
-          <img :src="firstImage" alt="">
+          <img
+            :src="data.firstImageSrc"
+            :alt="data.title ?? ''"
+          />
         </div>
       </div>
 
       <div class="invite-block__content">
-        <span class="invite-block__subtitle">{{ content.subtitle }}</span>
-        <p class="invite-block__title">{{ content.title }}</p>
+        <span class="invite-block__subtitle">{{ data.subtitle }}</span>
+        <p class="invite-block__title">{{ data.title }}</p>
       </div>
 
       <div class="invite-block__buttons">
         <AppButton
-          v-for="button of buttons"
-          :key="button.href"
-          :type="button.type"
-          :href="button.href"
+          v-for="(button, i) of [data.firstButton, data.secondButton]"
+          :key="button.href ?? ''"
+          :type="i === 0 ? 'tertiary' : 'ghost'"
+          :href="button.href ?? ''"
         >
           {{ button.text }}
         </AppButton>
-        <span class="invite-block__text">Now Available</span>
+        <span class="invite-block__text">{{ data.text }}</span>
       </div>
 
-      <div class="invite-block__image">
+      <div
+        v-if="data.secondImageSrc"
+        class="invite-block__image"
+      >
         <div class="invite-block__image-wrapper">
-          <img :src="secondImage" alt="">
+          <img
+            :src="data.secondImageSrc"
+            :alt="data.title ?? ''"
+          />
         </div>
       </div>
     </div>

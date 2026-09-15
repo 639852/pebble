@@ -78,8 +78,8 @@ function objectToFormData() {
 
   formData.append('settings[main_page_invite_block_first_button_text]', state.inviteBlock.firstButton.text ?? '')
   formData.append('settings[main_page_invite_block_first_button_href]', state.inviteBlock.firstButton.href ?? '')
-  formData.append('settings[main_page_invite_block_second_button_text]', state.inviteBlock.secondButton.href ?? '')
-  formData.append('settings[main_page_invite_block_second_button_href]', state.inviteBlock.secondButton.text ?? '')
+  formData.append('settings[main_page_invite_block_second_button_text]', state.inviteBlock.secondButton.text ?? '')
+  formData.append('settings[main_page_invite_block_second_button_href]', state.inviteBlock.secondButton.href ?? '')
 
   return formData
 }

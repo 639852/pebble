@@ -2,9 +2,11 @@
 import { computed, inject, onMounted, ref, useTemplateRef } from 'vue'
 import { useMediaQuery } from '@/composables'
 import { splitString } from '@/helpers'
-import { firstImage, secondImage, video } from '@/assets/data/splitImages'
 
 import type { ComputedRef } from 'vue'
+import type { TwoImagesBlock } from '~/types'
+
+defineProps<{ data: TwoImagesBlock }>()
 
 const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
 const splitImagesEl = useTemplateRef('splitImagesEl')
@@ -49,53 +51,77 @@ onMounted(() => {
   >
     <div class="split-images__wrapper">
       <div class="split-images__container">
-        <div class="split-images__video">
+        <div
+          v-if="data.video.src"
+          class="split-images__video"
+        >
           <video
             loop
             muted
             autoplay
             playsinline
-            :src="video"
+            :src="data.video.src"
           />
 
           <div class="split-images__title">
-            <span>And on the road</span>
+            <span>{{ data.video.title }}</span>
           </div>
 
-          <p class="split-images__text --right">
-            Aerodynamic design and a dual-motor Active Tow Assist System will have you wondering if you are towing anything at all. Range anxiety is a thing of the past when towing with an EV.
+          <p
+            v-if="data.video.description"
+            class="split-images__text --right"
+          >
+            {{ data.video.description }}
           </p>
         </div>
 
-        <div class="split-images__left">
+        <div
+          v-if="data.firstMedia.src"
+          class="split-images__left"
+        >
           <div class="split-images__left-container">
             <div class="split-images__image">
-              <img :src="firstImage" alt="">
+              <img
+                :src="data.firstMedia.src"
+                alt=""
+              />
             </div>
           </div>
 
           <div class="split-images__title --left">
-            <span>On-grid</span>
+            <span>{{ data.firstMedia.title }}</span>
           </div>
 
-          <p class="split-images__text">
-            At home, the Pebble Flow is never idle. Use it as a bonus room, an office or a rental space. It can even be used as a back-up battery.
+          <p
+            v-if="data.firstMedia.description"
+            class="split-images__text"
+          >
+            {{ data.firstMedia.description }}
           </p>
         </div>
 
-        <div class="split-images__right">
+        <div
+          v-if="data.secondMedia.src"
+          class="split-images__right"
+        >
           <div class="split-images__right-container">
             <div class="split-images__image">
-              <img :src="secondImage" alt="">
+              <img
+                :src="data.secondMedia.src"
+                alt=""
+              />
             </div>
           </div>
 
           <div class="split-images__title --right">
-            <span>Off-grid</span>
+            <span>{{ data.secondMedia.title }}</span>
           </div>
 
-          <p class="split-images__text --right">
-            Escape to the great outdoors for up to 7 days completely off-grid. Say goodbye to generators and propane tanks. The Pebble Flow’s massive battery and integrated solar panels adapt to your needs, promising true freedom.
+          <p
+            v-if="data.secondMedia.description"
+            class="split-images__text --right"
+          >
+            {{ data.secondMedia.description }}
           </p>
         </div>
       </div>
@@ -250,7 +276,8 @@ onMounted(() => {
     }
 
     @include mix.media(tablet) {
-      &.--left, &.--right {
+      &.--left,
+      &.--right {
         #{$this}__right-container {
           transform: translateX(calc(50% + v-bind('scrollImagesProgress') * 20%));
         }
@@ -277,10 +304,7 @@ onMounted(() => {
 
     @include mix.media(tablet) {
       #{$this}__left #{$this}__text {
-        transform:
-          translateY(calc(-100% - var(--padding) * 3))
-          translateX(calc(-100% - var(--padding) * 3))
-        ;
+        transform: translateY(calc(-100% - var(--padding) * 3)) translateX(calc(-100% - var(--padding) * 3));
       }
 
       #{$this}__right #{$this}__text {
@@ -307,7 +331,10 @@ onMounted(() => {
     padding: var(--padding);
   }
 
-  &__left, &__left-container, &__right, &__right-container {
+  &__left,
+  &__left-container,
+  &__right,
+  &__right-container {
     @include mix.full-size;
     border-radius: clamp(1.2rem, mix.ruber(2.4), 2.7rem);
     overflow: hidden;

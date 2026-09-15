@@ -24,4 +24,11 @@ export default defineConfigWithVueTs(
   // neostandard
 
   prettierConfig,
+
+  {
+    rules: {
+      'vue/require-default-prop': 'off',
+      'vue/no-v-html': 'off',
+    },
+  },
 )

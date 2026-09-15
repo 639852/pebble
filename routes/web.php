@@ -2,6 +2,7 @@
 
 use App\Facades\AdminRoutes;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Client\HomeController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -29,4 +30,4 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     AdminRoutes::ajax();
 });
 
-Route::inertia('/', 'MainPage')->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');

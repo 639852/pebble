@@ -50,12 +50,12 @@ trait MainPageTrait
                 'firstImageSrc' => setting('main_page_invite_block_first_image'),
                 'secondImageSrc' => setting('main_page_invite_block_second_image'),
                 'firstButton' => [
-                    'href' => setting('main_page_invite_block_first_button_text'),
-                    'text' => setting('main_page_invite_block_first_button_href'),
+                    'href' => setting('main_page_invite_block_first_button_href'),
+                    'text' => setting('main_page_invite_block_first_button_text'),
                 ],
                 'secondButton' => [
-                    'href' => setting('main_page_invite_block_second_button_text'),
-                    'text' => setting('main_page_invite_block_second_button_href'),
+                    'href' => setting('main_page_invite_block_second_button_href'),
+                    'text' => setting('main_page_invite_block_second_button_text'),
                 ],
             ],
         ];

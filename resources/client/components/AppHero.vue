@@ -1,38 +1,58 @@
 <script setup lang="ts">
 import { inject } from 'vue'
 
-import { firstImage, secondImage, shortVideo } from '@/assets/data/hero'
 import TriangleIcon from '@/assets/icons/triangle.svg'
 import PlayIcon from '@/assets/icons/play.svg'
 
 import type { ComputedRef } from 'vue'
+import type { Banner } from '~/types'
+
+defineProps<{ data: Banner }>()
 
 const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
 </script>
 
 <template>
   <div class="hero">
-    <div class="hero__image">
+    <div
+      v-if="data.firstImageSrc"
+      class="hero__image"
+    >
       <div class="hero__image-wrapper">
-        <img :src="firstImage" alt="">
+        <img
+          :src="data.firstImageSrc"
+          alt=""
+        />
       </div>
     </div>
 
-    <p class="hero__text">meet <br> pebble</p>
+    <p
+      class="hero__text"
+      v-html="data.title"
+    />
 
-    <div class="hero__image">
+    <div
+      v-if="data.secondImageSrc"
+      class="hero__image"
+    >
       <div class="hero__image-wrapper">
-        <img :src="secondImage" alt="">
+        <img
+          :src="data.secondImageSrc"
+          alt=""
+        />
       </div>
     </div>
 
-    <div class="hero__video">
+    <div
+      v-if="data.video"
+      class="hero__video"
+    >
       <video
         loop
         muted
         autoplay
         playsinline
-        :src="shortVideo"
+        :src="data.video"
       />
 
       <button
@@ -81,7 +101,7 @@ const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
     width: 100%;
     padding: var(--padding-container);
 
-    font-family: "Youth", serif;
+    font-family: 'Youth', serif;
     @include mix.title(clamp(20rem, mix.ruber(30), 39.6rem), 500, var(--light-text-color), 0.8);
     letter-spacing: -1.6rem;
     text-align: center;

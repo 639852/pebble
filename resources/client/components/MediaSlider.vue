@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, inject, useTemplateRef } from 'vue'
 import { useMediaQuery } from '@/composables'
-import { data } from '@/assets/data/mediaSlider'
 
 import { MediaSliderBlock, RenderMedia } from '@/components'
 import type { ComputedRef } from 'vue'
+import type { MediaSlider } from '~/types'
+
+defineProps<{ data: MediaSlider }>()
 
 const mediaSliderEl = useTemplateRef('mediaSliderEl')
 const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
@@ -25,6 +27,10 @@ const scrollSliderProgress = computed(() => {
 
   return Math.min(1, Math.max(0, scrollProgress))
 })
+
+function getType(item: { src: string | null }) {
+  return item.src?.endsWith('.mp4') || item.src?.endsWith('.webm') ? 'video' : 'image'
+}
 </script>
 
 <template>
@@ -32,22 +38,23 @@ const scrollSliderProgress = computed(() => {
     ref="mediaSliderEl"
     data-logo-dark
     class="media-slider"
-    :style="{ '--media-count': data.length }"
+    :style="{ '--media-count': data.items.length }"
   >
     <div class="media-slider__wrapper">
       <div class="media-slider__container">
         <MediaSliderBlock
+          :data="data"
           :scroll-progress="scrollSliderProgress"
         />
 
         <div class="media-slider__images">
           <div
-            v-for="(item, i) of data"
-            :key="item.src"
+            v-for="(item, i) of data.items"
+            :key="i"
             class="media-slider__image"
             :style="{ '--media-index': i }"
           >
-            <RenderMedia :data="item" />
+            <RenderMedia :data="{ type: getType(item), src: item.src ?? '' }" />
           </div>
         </div>
       </div>

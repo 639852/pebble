@@ -3,6 +3,9 @@ import { splitString } from '@/helpers'
 import { computed, inject, onMounted, useTemplateRef } from 'vue'
 
 import type { ComputedRef } from 'vue'
+import type { FirstTextBlock } from '~/types'
+
+defineProps<{ data: FirstTextBlock }>()
 
 const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
 const textBlockEl = useTemplateRef('textBlockEl')
@@ -13,38 +16,44 @@ const scrollTextProgress = computed(() => {
   const scrollYWithoutHalfText = Math.max((pageScrollY?.value ?? 0) - textHeight / 2, 0)
   const scrollProgress = scrollYWithoutHalfText / textHeight
 
-  return Math.min(1.66, textHeight * 2 / textHeight * scrollProgress)
+  return Math.min(1.66, ((textHeight * 2) / textHeight) * scrollProgress)
 })
 
 function observeTextBlock(p: HTMLParagraphElement) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return
-      textBlockEl.value?.classList.add('--transition')
-      textBlockEl.value?.classList.add('--intersect')
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        textBlockEl.value?.classList.add('--transition')
+        textBlockEl.value?.classList.add('--intersect')
 
-      setTimeout(() => {
-        textBlockEl.value?.classList.remove('--transition')
-      }, 300)
-    })
-  }, { threshold: 1, rootMargin: `${innerHeight / 2 - 150}px 0px -${innerHeight / 2 - 150}px` })
+        setTimeout(() => {
+          textBlockEl.value?.classList.remove('--transition')
+        }, 300)
+      })
+    },
+    { threshold: 1, rootMargin: `${innerHeight / 2 - 150}px 0px -${innerHeight / 2 - 150}px` },
+  )
 
   observer.observe(p)
 }
 
 function observeHero() {
   const hero = document.querySelector('.hero')
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return
-      textBlockEl.value?.classList.add('--transition')
-      textBlockEl.value?.classList.remove('--intersect')
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        textBlockEl.value?.classList.add('--transition')
+        textBlockEl.value?.classList.remove('--intersect')
 
-      setTimeout(() => {
-        textBlockEl.value?.classList.remove('--transition')
-      }, 300)
-    })
-  }, { threshold: [0, 1] })
+        setTimeout(() => {
+          textBlockEl.value?.classList.remove('--transition')
+        }, 300)
+      })
+    },
+    { threshold: [0, 1] },
+  )
 
   observer.observe(hero!)
 }
@@ -75,13 +84,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="textBlockEl" class="text-block">
+  <div
+    ref="textBlockEl"
+    class="text-block"
+  >
     <div class="text-block__top">
-      <p>We’ve reinvented the RV.</p>
+      <p>{{ data.firstText }}</p>
     </div>
 
     <div class="text-block__bottom">
-      <p>Pebble Flow anticipates your every need.</p>
+      <p>{{ data.secondText }}</p>
     </div>
   </div>
 </template>
@@ -106,7 +118,8 @@ onMounted(() => {
     letter-spacing: -0.2rem;
   }
 
-  &__top, &__bottom {
+  &__top,
+  &__bottom {
     @include mix.absolute-center;
 
     max-width: 160rem;

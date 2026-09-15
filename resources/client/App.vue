@@ -15,6 +15,9 @@ provide('pageScrollY', pageScrollY)
 </script>
 
 <template>
+  <!-- inertia props from backend -->
+  {{ console.log('props', $page.props) }}
+
   <div class="layout">
     <div class="layout__header">
       <AppHeader />

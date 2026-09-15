@@ -4,6 +4,8 @@ import { splitString } from '@/helpers'
 
 import type { ComputedRef } from 'vue'
 
+defineProps<{ data: { title: string | null } }>()
+
 const textEl = useTemplateRef('textEl')
 const pageScrollY = inject<ComputedRef<number>>('pageScrollY')
 
@@ -26,7 +28,7 @@ onMounted(() => {
     ref="textEl"
     class="second-text"
   >
-    <p class="second-text__text">What others are saying about Pebble</p>
+    <p class="second-text__text">{{ data.title }}</p>
   </div>
 </template>
 

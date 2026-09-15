@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { computed, ref, useTemplateRef, watch } from 'vue'
-import { button, data } from '@/assets/data/mediaSlider'
 
 import PlusIcon from '@/assets/icons/plus.svg'
 import ArrowRightIcon from '@/assets/icons/arrow-right.svg'
 import { AppButton } from '@/components'
+import type { MediaSlider } from '~/types'
 
 interface MediaSliderBlockProps {
+  data: MediaSlider
   scrollProgress: number
 }
 const props = defineProps<MediaSliderBlockProps>()
 
 const currentSlide = computed(() => {
-  const index = Math.round(props.scrollProgress / (1 / data.length))
+  const index = Math.round(props.scrollProgress / (1 / props.data.items.length))
 
-  if (index >= data.length) return data.at(-1)
-  return data[index] ?? data[0]
+  if (index >= props.data.items.length) return props.data.items.at(-1)
+  return props.data.items[index] ?? props.data.items[0]
 })
 
 const buttonEl = useTemplateRef('buttonEl')
@@ -23,10 +24,10 @@ const buttonWidth = ref('116px')
 const buttonTransform = ref('0')
 const buttonsTransform = ref('0')
 
-const buttons = [...data, { title: 'And so much more', src: '', buttonText: null }]
+const buttons = [...props.data.items, { title: 'And so much more', src: '', buttonText: null }]
 
 watch(currentSlide, () => {
-  const index = Math.max(0, Math.round(props.scrollProgress / (1 / data.length)))
+  const index = Math.max(0, Math.round(props.scrollProgress / (1 / props.data.items.length)))
   let x = 0
 
   for (let i = 0; i < index; i++) {
@@ -53,7 +54,7 @@ watch(currentSlide, () => {
         mode="out-in"
       >
         <h3
-          :key="currentSlide?.title"
+          :key="currentSlide?.title ?? ''"
           class="media-slider__title"
         >
           {{ currentSlide?.title }}
@@ -69,10 +70,10 @@ watch(currentSlide, () => {
         mode="out-in"
       >
         <p
-          :key="currentSlide?.title"
+          :key="currentSlide?.title ?? ''"
           class="media-slider__text"
         >
-          {{ currentSlide?.text }}
+          {{ currentSlide?.description }}
         </p>
       </Transition>
 
@@ -87,7 +88,7 @@ watch(currentSlide, () => {
               class="media-slider__block-button"
               :class="{ '--active': currentSlide?.src === item.src }"
             >
-              {{ i + 1 }}. {{ item.buttonText ?? item.title }}
+              {{ i + 1 }}. {{ item.title }}
             </button>
           </div>
         </div>
@@ -100,9 +101,9 @@ watch(currentSlide, () => {
         <div class="media-slider__button">
           <AppButton
             type="secondary"
-            :href="button.href"
+            :href="data.buttonLink ?? ''"
           >
-            {{ button.text }}
+            {{ data.buttonText }}
             <ArrowRightIcon />
           </AppButton>
         </div>
