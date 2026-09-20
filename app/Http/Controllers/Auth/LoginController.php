@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Validation\Validator;
+use App\Http\Requests\Admin\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class LoginController extends Controller
@@ -64,12 +65,12 @@ class LoginController extends Controller
     }
 
     /**
-     * @param  Request  $request
+     * @param  LoginRequest  $request
      * @return RedirectResponse|Response
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $this->validateLogin($request);
+        $request->validated();
 
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
@@ -84,19 +85,8 @@ class LoginController extends Controller
 
         $this->incrementLoginAttempts($request);
 
-        return response()->json([
-            'message' => 'Invalid email or password',
-        ], 422);
-    }
-
-    /**
-     * @param Request $request 
-     */
-    protected function validateLogin($request): Validator
-    {
-        return validator($request->all(), [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+        throw ValidationException::withMessages([
+            'email' => 'Invalid email or password',
         ]);
     }
 

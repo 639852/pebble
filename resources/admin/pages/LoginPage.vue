@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, useTemplateRef } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { NButton, NCard, NCheckbox, NFlex, NForm, NFormItem, NInput, useMessage } from 'naive-ui'
 
-import type { FormItemRule, FormRules } from 'naive-ui'
+import type { FormRules } from 'naive-ui'
 
 const formEl = useTemplateRef('formEl')
 const message = useMessage()
@@ -15,41 +15,25 @@ const state = useForm({
   remember: false,
 })
 
-const emailRegexp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const rules: FormRules = {
   email: {
     required: true,
     message: 'Please fill in email field.',
-    trigger: ['input', 'blur'],
+    trigger: ['input'],
   },
   password: {
     required: true,
     message: 'Please fill in password field.',
-    trigger: ['input', 'blur'],
+    trigger: ['input'],
   },
 }
-
-const emailFeedback = computed(() => {
-  const rule = rules.email as FormItemRule
-
-  if (isFirstSend.value) return
-  if (!state.email) return rule.message as string
-  if (state.email.match(emailRegexp)) {
-    return
-  }
-
-  return 'Email field invalid'
-})
 
 function validate() {
   isFirstSend.value = false
 
   return formEl.value?.validate((errors) => {
-    if (errors) {
-      console.log(errors)
-      message.error('Please fill in all required fields')
-      isFirstSend.value = false
-    }
+    if (!errors) return
+    message.error('Please fill in all required fields')
   })
 }
 
@@ -59,6 +43,13 @@ async function submit() {
   try {
     state.post('/login', {
       onFinish: () => state.reset('password'),
+      onSuccess: () => {
+        state.resetAndClearErrors()
+        isFirstSend.value = true
+      },
+      onError: (errors) => {
+        message.error(errors.email ?? '')
+      },
     })
   } catch (error) {
     console.error(error)
@@ -86,13 +77,11 @@ async function submit() {
         <NFormItem
           path="email"
           label="Email"
-          :validation-status="typeof emailFeedback === 'string' ? 'error' : 'success'"
-          :feedback="emailFeedback"
         >
           <NInput
             v-model:value="state.email"
             placeholder="Please input email"
-            @keydown.enter.prevent
+            @keydown.enter="submit"
           />
         </NFormItem>
 
@@ -106,7 +95,8 @@ async function submit() {
             type="password"
             show-password-on="click"
             placeholder="********"
-            @keydown.enter.prevent
+            @keydown.enter="submit"
+            @change="isFirstSend = true"
           />
         </NFormItem>
 

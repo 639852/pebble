@@ -41,9 +41,6 @@ class HomeController extends Controller
         $request->validated();
         $this->service->save($request);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Main page saved successfully!',
-        ]);
+        return Inertia::flash('message', 'Main page saved successfully!')->back();
     }
 }

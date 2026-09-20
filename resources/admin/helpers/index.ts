@@ -35,3 +35,26 @@ export function objectToFormData(obj: State, formData = new FormData(), prefix =
   }
   return formData
 }
+
+export async function getBase64Image(value: string | File) {
+  try {
+    let blob: Blob
+
+    if (typeof value === 'string') {
+      const response = await fetch(value, { mode: 'cors' })
+      blob = await response.blob()
+    } else {
+      blob = value
+    }
+    const reader = new FileReader()
+
+    return new Promise<string>((resolve, reject) => {
+      reader.onloadend = () => resolve(reader.result as string)
+      reader.onerror = reject
+      reader.readAsDataURL(blob)
+    })
+  } catch (error) {
+    console.error(error)
+    return ''
+  }
+}

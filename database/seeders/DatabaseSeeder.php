@@ -17,11 +17,13 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call(RoleSeeder::class); /* Роли. */
+        $this->call(RoleSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Администратор',
-            'email' => 'admin@admin.com',
-        ])->assignRole('admin');
+        if (!User::where('email', 'admin@admin.com')->exists()) {
+            $this->call(RoleSeeder::class); /* Роли. */
+            $this->call(UserSeeder::class); /* Пользователи */
+        } else {
+            echo "Admin user already exists. Skipping seed.";
+        }
     }
 }

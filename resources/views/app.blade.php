@@ -9,7 +9,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/images/icon_192x192.png" />
 
-    @vite(['resources/client/app.ts', "resources/client/pages/{$page['component']}.vue"])
+    @vite(['resources/client/app.ts'])
 
     <x-inertia::head>
       <title>{{ config('app.name', 'Pebble | Where Home Meets the Road') }}</title>

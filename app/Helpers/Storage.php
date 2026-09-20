@@ -35,16 +35,9 @@ class Storage
                     $image->zoomCrop((int)$crop[0], (int)$crop[1], 'transparent', 'center', 'center');
                 }
             }
-            $image->save(FacadesStorage::path($directory . '/thumbs/' . basename($fullPath)), 'guess', 100);
-        } else {
-            File::ensureDirectoryExists(FacadesStorage::path($directory . '/thumbs/'));
-            File::copy(
-                FacadesStorage::path($directory . '/' . basename($fullPath)),
-                FacadesStorage::path($directory . '/thumbs/' . basename($fullPath))
-            );
         }
 
-        if (!empty($removeImage)) self::removeImage($removeImage);
+        if (!empty($removeImage)) self::removeFile($removeImage);
 
         return '/storage/' . $directory . '/' . basename($fullPath);
     }
@@ -68,22 +61,6 @@ class Storage
     }
 
     /**
-     * Remove image from storage.
-     *
-     * @param string $path
-     */
-    public static function removeImage(string $path): void
-    {
-        if (stripos($path, 'default') !== false) return;
-
-        foreach ([str_replace('/storage', '', $path), str_replace(['/thumbs', '/storage'], '', $path)] as $file) {
-            if (File::exists(FacadesStorage::path($file))) {
-                File::delete(FacadesStorage::path($file));
-            }
-        }
-    }
-
-    /**
      * Remove file from storage.
      *
      * @param string $path
@@ -92,8 +69,10 @@ class Storage
     {
         if (stripos($path, 'default')) return;
 
-        if (File::exists(FacadesStorage::path(str_replace('/storage', '', $path)))) {
-            File::delete(FacadesStorage::path(str_replace('/storage', '', $path)));
+        $file = str_replace('/storage', '', $path);
+
+        if (File::exists(FacadesStorage::disk('public')->path($file))) {
+            File::delete(FacadesStorage::disk('public')->path($file));
         }
     }
 
@@ -104,12 +83,9 @@ class Storage
      */
     public static function removeFileOrImage(?string $path): void
     {
-        if (empty($path))
-            return;
+        if (empty($path)) return;
 
-        is_image(pathinfo($path, PATHINFO_EXTENSION))
-            ? self::removeImage($path)
-            : self::removeFile($path);
+        self::removeFile($path);
     }
 
     /**

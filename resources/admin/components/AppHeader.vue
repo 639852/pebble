@@ -1,12 +1,22 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
+import { ref } from 'vue';
+import { Link, router } from '@inertiajs/vue3'
+
 import { NAvatar, NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NPageHeader, NSpace } from 'naive-ui'
 import { PersonCircleOutline } from '@vicons/ionicons5'
 
-const breadcrumbs = location.pathname
-  .split('/')
-  .filter((value) => value && value !== 'content')
-  .map((value) => ({ title: `${value[0]?.toUpperCase()}${value.slice(1)}`, link: `/${value}` }))
+function getBreadcrumbsData() {
+  return location.pathname
+    .split('/')
+    .filter((value) => value && value !== 'content')
+    .map((value) => ({ title: `${value[0]?.toUpperCase()}${value.slice(1)}`, link: `/${value}` }))
+}
+
+const breadcrumbs = ref(getBreadcrumbsData())
+
+router.on('navigate', () => {
+  breadcrumbs.value = getBreadcrumbsData()
+})
 </script>
 
 <template>

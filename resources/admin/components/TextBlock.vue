@@ -18,6 +18,7 @@ defineModel<FirstTextBlock>('textBlock', { required: true })
       <NInput
         v-model:value="textBlock.firstText"
         class="text-block__input"
+        maxlength="255"
       />
     </NFormItemGi>
 
@@ -28,6 +29,7 @@ defineModel<FirstTextBlock>('textBlock', { required: true })
       <NInput
         v-model:value="textBlock.secondText"
         class="text-block__input"
+        maxlength="255"
       />
     </NFormItemGi>
   </NGrid>

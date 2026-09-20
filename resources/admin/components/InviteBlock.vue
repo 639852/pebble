@@ -1,33 +1,13 @@
 <script setup lang="ts">
-import { NFormItemGi, NGrid, NInput, NUpload } from 'naive-ui'
-import { useFileType } from '~/composables'
+import { NFormItemGi, NGrid, NInput } from 'naive-ui'
 
+import { AppUpload } from '~/components'
 import type { UploadFileInfo } from 'naive-ui'
 import type { InviteBlock } from '~/types'
 
 const data = defineModel<InviteBlock>('data', { required: true })
 const firstFileList = defineModel<Array<UploadFileInfo>>('firstFileList', { required: true })
 const secondFileList = defineModel<Array<UploadFileInfo>>('secondFileList', { required: true })
-
-const { fileTypeValidation, imageTypes } = useFileType()
-
-if (data.value.firstImageSrc) {
-  firstFileList.value.push({
-    id: '1',
-    name: `first_background_image.png`,
-    status: 'finished',
-    url: data.value.firstImageSrc,
-  })
-}
-
-if (data.value.secondImageSrc) {
-  secondFileList.value.push({
-    id: '1',
-    name: `second_background_image.png`,
-    status: 'finished',
-    url: data.value.secondImageSrc,
-  })
-}
 </script>
 
 <template>
@@ -41,21 +21,30 @@ if (data.value.secondImageSrc) {
       path="inviteBlock.title"
       label="Title"
     >
-      <NInput v-model:value="data.title" />
+      <NInput
+        v-model:value="data.title"
+        maxlength="16"
+      />
     </NFormItemGi>
 
     <NFormItemGi
       path="inviteBlock.subtitle"
       label="Subtitle"
     >
-      <NInput v-model:value="data.subtitle" />
+      <NInput
+        v-model:value="data.subtitle"
+        maxlength="16"
+      />
     </NFormItemGi>
 
     <NFormItemGi
       path="inviteBlock.firstButton.text"
       label="First button text"
     >
-      <NInput v-model:value="data.firstButton.text" />
+      <NInput
+        v-model:value="data.firstButton.text"
+        maxlength="16"
+      />
     </NFormItemGi>
 
     <NFormItemGi
@@ -69,7 +58,10 @@ if (data.value.secondImageSrc) {
       path="inviteBlock.secondButton.text"
       label="Second button text"
     >
-      <NInput v-model:value="data.secondButton.text" />
+      <NInput
+        v-model:value="data.secondButton.text"
+        maxlength="16"
+      />
     </NFormItemGi>
 
     <NFormItemGi
@@ -87,6 +79,7 @@ if (data.value.secondImageSrc) {
       <NInput
         v-model:value="data.text"
         class="invite-block__input"
+        maxlength="16"
       />
     </NFormItemGi>
 
@@ -94,30 +87,26 @@ if (data.value.secondImageSrc) {
       path="inviteBlock.firstImageSrc"
       label="First background image"
     >
-      <NUpload
+      <AppUpload
         v-model:file-list="firstFileList"
+        files-type="images"
         class="invite-block__upload"
-        list-type="image-card"
-        :max="1"
-        @before-upload="fileTypeValidation($event, imageTypes)"
       >
         Click to Upload
-      </NUpload>
+      </AppUpload>
     </NFormItemGi>
 
     <NFormItemGi
       path="inviteBlock.secondImageSrc"
       label="Second background image"
     >
-      <NUpload
+      <AppUpload
         v-model:file-list="secondFileList"
+        files-type="images"
         class="invite-block__upload"
-        list-type="image-card"
-        :max="1"
-        @before-upload="fileTypeValidation($event, imageTypes)"
       >
         Click to Upload
-      </NUpload>
+      </AppUpload>
     </NFormItemGi>
   </NGrid>
 </template>
@@ -128,23 +117,14 @@ if (data.value.secondImageSrc) {
     max-width: max(50% - 6px, 576px);
   }
 
-  &__upload :deep(.n-upload-file-list.n-upload-file-list--grid) {
-    grid-template-columns: repeat(auto-fill, 50%);
-  }
+  &__upload {
+    :deep(:is(.text, .n-upload-dragger)) {
+      align-self: start;
+    }
 
-  &__upload :deep(.n-upload-dragger) {
-    padding: 8px;
-  }
-
-  &__upload :deep(.n-upload-trigger.n-upload-trigger--image-card),
-  &__upload :deep(.n-upload-file.n-upload-file--image-card-type) {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1.75;
-  }
-
-  &__upload :deep(.n-image > img) {
-    object-fit: contain !important;
+    :deep(.n-upload-file-list.n-upload-file-list--grid) {
+      justify-content: start;
+    }
   }
 }
 </style>

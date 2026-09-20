@@ -1,5 +1,6 @@
 export { default as AppHeader } from '~/components/AppHeader.vue'
 export { default as AppSider } from '~/components/AppSider.vue'
+export { default as AppUpload } from '~/components/AppUpload.vue'
 
 export { default as AppHero } from '~/components/AppHero.vue'
 export { default as TextBlock } from '~/components/TextBlock.vue'

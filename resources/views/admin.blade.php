@@ -9,7 +9,7 @@
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
-    @vite(['resources/admin/app.ts', "resources/admin/pages/{$page['component']}.vue"])
+    @vite(['resources/admin/app.ts'])
 
     <x-inertia::head>
       <title>{{ config('app.name') }}</title>

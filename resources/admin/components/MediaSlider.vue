@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { NButton, NDivider, NFormItemGi, NGi, NGrid, NInput, NUpload } from 'naive-ui'
-import { useFileType } from '~/composables'
+import { NButton, NDivider, NFormItemGi, NGi, NGrid, NInput } from 'naive-ui'
 
+import { AppUpload } from '~/components'
 import type { UploadFileInfo } from 'naive-ui'
 import type { MediaSlider } from '~/types'
 
 const mediaSlider = defineModel<MediaSlider>('data', { required: true })
-
 const fileList = defineModel<Record<string, UploadFileInfo[]>>('fileList', { required: true })
-const { fileTypeValidation, imageTypes, videoTypes } = useFileType()
+
+defineEmits(['update:fileList'])
 
 function addItem() {
   mediaSlider.value.items.push({
@@ -25,19 +25,6 @@ function removeItem(index: number) {
     fileList.value[i] = fileList.value[i + 1] ?? []
   }
 }
-
-mediaSlider.value.items.forEach(({ src, title }, i) => {
-  if (!src) return
-
-  fileList.value[i] = [
-    {
-      id: `${i + 1}`,
-      name: `${title}.png`,
-      status: 'finished',
-      url: src,
-    },
-  ]
-})
 </script>
 
 <template>
@@ -51,7 +38,10 @@ mediaSlider.value.items.forEach(({ src, title }, i) => {
       path="mediaSlider.buttonText"
       label="Button text"
     >
-      <NInput v-model:value="data.buttonText" />
+      <NInput
+        v-model:value="data.buttonText"
+        maxlength="255"
+      />
     </NFormItemGi>
 
     <NFormItemGi
@@ -71,7 +61,10 @@ mediaSlider.value.items.forEach(({ src, title }, i) => {
         :path="`mediaSlider.items[${i}].title`"
         :label="`Media №${i + 1} title`"
       >
-        <NInput v-model:value="item.title" />
+        <NInput
+          v-model:value="item.title"
+          maxlength="255"
+        />
       </NFormItemGi>
 
       <NFormItemGi
@@ -85,15 +78,14 @@ mediaSlider.value.items.forEach(({ src, title }, i) => {
         :path="`mediaSlider.items[${i}].src`"
         :label="`Media №${i + 1}`"
       >
-        <NUpload
-          v-model:file-list="fileList[i]"
+        <AppUpload
           class="media-slider__upload"
-          list-type="image-card"
           :max="1"
-          @before-upload="fileTypeValidation($event, imageTypes.concat(videoTypes))"
+          :file-list="fileList[i] ?? []"
+          @update:file-list="fileList[i] = $event; $emit('update:fileList', fileList)"
         >
           Click to Upload
-        </NUpload>
+        </AppUpload>
       </NFormItemGi>
 
       <NGi class="justify-end">
@@ -122,25 +114,15 @@ mediaSlider.value.items.forEach(({ src, title }, i) => {
 
 <style scoped lang="scss">
 .media-slider {
-  &__upload :deep(.n-upload-file-list.n-upload-file-list--grid) {
-    grid-template-columns: repeat(auto-fill, 50%);
-    justify-content: center;
-  }
+  // &__upload {
+  //   :deep(:is(.text, .n-upload-dragger)) {
+  //     align-self: start;
+  //   }
 
-  &__upload :deep(.n-upload-dragger) {
-    padding: 8px;
-  }
-
-  &__upload :deep(.n-upload-trigger.n-upload-trigger--image-card),
-  &__upload :deep(.n-upload-file.n-upload-file--image-card-type) {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1.75;
-  }
-
-  &__upload :deep(.n-image > img) {
-    object-fit: contain !important;
-  }
+  //   :deep(.n-upload-file-list.n-upload-file-list--grid) {
+  //     justify-content: start;
+  //   }
+  // }
 
   .justify-end {
     justify-self: end;
